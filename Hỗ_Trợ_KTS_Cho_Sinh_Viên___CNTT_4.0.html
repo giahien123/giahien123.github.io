@@ -1,0 +1,2058 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="artifact-type" content="narrative">
+  <meta name="design-style" content="briefing">
+  <title>Tổng quan Học phần CNTT 4.0 — Nền tảng Số, Công nghệ Lõi &amp; Sáng kiến Sản phẩm</title>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@1.43.0/dist/umd/lucide.min.js"></script>
+  <style>
+    :root {
+      color-scheme: light;
+
+      /* 1. Briefing style tokens */
+      --background: #faf9f5;
+      --surface-container-low: #ffffff;
+      --surface-container: #f1efe8;
+      --surface-container-high: #e6e2d6;
+
+      --on-surface: #17181a;
+      --on-surface-variant: #56585c;
+
+      --outline: #17181a;
+      --outline-variant: #dedad0;
+      --control-border: #c8c4b8;
+
+      --primary: #17181a;
+      --on-primary: #faf9f5;
+      --primary-container: #f2b705;
+      --on-primary-container: #17181a;
+      --secondary: #1f4e5f;
+      --tertiary: #785008;
+      --error: #b42318;
+      --on-error: #ffffff;
+
+      /* Data series */
+      --data-1: #1f4e5f;
+      --data-2: #d99000;
+      --data-3: #2b6e52;
+      --data-4: #b84a39;
+      --data-context: #c4bfb2;
+
+      /* Fonts */
+      --font-headline: 'Source Serif 4', serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+      --font-label: 'Geist Mono', 'IBM Plex Mono', monospace;
+
+      /* Shape */
+      --rounded: 0.25rem;
+      --rounded-lg: 0.375rem;
+      --rounded-full: 0.25rem;
+
+      /* Style effects */
+      --section-rule: 1.5px solid var(--outline);
+      --card-border: 1px solid var(--outline-variant);
+      --control-rule: 1px solid var(--control-border);
+      --badge-radius: 2px;
+      --heading-tracking: -0.02em;
+      --label-tracking: 0.06em;
+
+      /* 3. Shared foundation tokens */
+      --positive: #2b6e52;
+      --positive-bg: #e7f3ed;
+      --warning: #785008;
+      --warning-bg: #f5e6c4;
+      --error-bg: #fceceb;
+      --secondary-bg: #e7eff2;
+      --focus: #1f4e5f;
+
+      /* Narrative type scale */
+      --display-size: clamp(2.125rem, 1.35rem + 2.8vw, 3.5rem);
+      --headline-size: clamp(1.5rem, 1.15rem + 1.4vw, 2.25rem);
+      --subhead-size: clamp(1.125rem, 1.02rem + 0.45vw, 1.375rem);
+      --body-size: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
+      --label-size: clamp(0.75rem, 0.72rem + 0.12vw, 0.8125rem);
+
+      /* Spacing scale (4pt base) */
+      --space-xs: 0.25rem;
+      --space-sm: 0.5rem;
+      --space-md: 1rem;
+      --space-lg: 1.5rem;
+      --space-xl: 2.5rem;
+      --space-2xl: 4rem;
+      --space-3xl: 5.5rem;
+
+      /* Motion */
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+      --dur-micro: 120ms;
+      --dur-short: 220ms;
+      --dur-long: 420ms;
+    }
+
+    /* Base reset */
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    html, body {
+      overflow-x: clip;
+      margin: 0;
+      padding: 0;
+      background-color: var(--background);
+      color: var(--on-surface);
+      font-family: var(--font-body);
+      font-size: var(--body-size);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    header { position: static !important; }
+
+    button, input, select, textarea {
+      font-family: inherit;
+    }
+
+    :focus-visible {
+      outline: 3px solid var(--focus);
+      outline-offset: 2px;
+    }
+
+    .page-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-xl);
+      padding: var(--space-lg);
+      max-width: 1140px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+    .page-grid * { min-width: 0; }
+
+    /* Briefing dossier header & section bars */
+    .dossier-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      border-bottom: var(--section-rule);
+      padding-bottom: var(--space-sm);
+      margin-bottom: var(--space-md);
+    }
+    .dossier-bar-left {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+    .dossier-pill {
+      display: inline-block;
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: 0.75rem;
+      letter-spacing: var(--label-tracking);
+      text-transform: uppercase;
+      padding: var(--space-xs) var(--space-sm);
+      border-radius: var(--badge-radius);
+      line-height: 1.2;
+    }
+    .dossier-meta {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+      letter-spacing: 0.03em;
+    }
+
+    /* Typography */
+    h1.hero-title {
+      font-family: var(--font-headline);
+      font-weight: 700;
+      font-size: var(--display-size);
+      letter-spacing: var(--heading-tracking);
+      line-height: 1.08;
+      margin: 0 0 var(--space-md) 0;
+      color: var(--on-surface);
+      max-width: 24ch;
+    }
+    .standfirst {
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: var(--subhead-size);
+      line-height: 1.45;
+      color: var(--secondary);
+      margin: 0 0 var(--space-lg) 0;
+      max-width: 65ch;
+    }
+    h2.section-title {
+      font-family: var(--font-headline);
+      font-weight: 600;
+      font-size: var(--headline-size);
+      letter-spacing: var(--heading-tracking);
+      line-height: 1.15;
+      margin: 0 0 var(--space-xs) 0;
+      color: var(--on-surface);
+    }
+    .section-deck {
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 1.0625rem;
+      color: var(--secondary);
+      margin: 0 0 var(--space-lg) 0;
+      max-width: 65ch;
+      line-height: 1.45;
+    }
+    h3.card-heading {
+      font-family: var(--font-headline);
+      font-weight: 600;
+      font-size: var(--subhead-size);
+      letter-spacing: -0.015em;
+      line-height: 1.25;
+      margin: 0 0 var(--space-sm) 0;
+      color: var(--on-surface);
+    }
+    p.prose {
+      margin: 0 0 var(--space-md) 0;
+      max-width: 65ch;
+      color: var(--on-surface);
+    }
+    .muted-note {
+      font-size: 0.9375rem;
+      color: var(--on-surface-variant);
+      margin: 0;
+      line-height: 1.5;
+    }
+    .index-num {
+      font-family: var(--font-label);
+      font-weight: 600;
+      font-size: var(--label-size);
+      color: var(--secondary);
+      background: var(--surface-container);
+      padding: var(--space-xs) var(--space-sm);
+      border-radius: var(--badge-radius);
+      display: inline-block;
+    }
+
+    /* Key figure cards & Adaptive Grid */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(230px, 100%), 1fr));
+      gap: var(--space-md);
+    }
+    .two-col-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
+      gap: var(--space-lg);
+      align-items: start;
+    }
+    .asymmetric-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+      gap: var(--space-lg);
+      align-items: start;
+    }
+    .figure-card {
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-lg);
+    }
+    .figure-card.compact {
+      padding: var(--space-md) var(--space-lg);
+    }
+    .figure-card .kpi-label {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: var(--space-xs);
+    }
+    .figure-card .value {
+      font-family: var(--font-headline);
+      font-weight: 700;
+      font-size: clamp(1.75rem, 1.4rem + 1vw, 2.375rem);
+      line-height: 1.1;
+      color: var(--on-surface);
+      font-variant-numeric: lining-nums tabular-nums;
+      margin-bottom: var(--space-xs);
+    }
+    .figure-card .kpi-sub {
+      font-size: 0.875rem;
+      color: var(--on-surface-variant);
+      line-height: 1.4;
+    }
+
+    /* Container query wrapper for adaptive split cards */
+    .card-wrapper { container-type: inline-size; }
+    .card-inner-split {
+      display: grid;
+      gap: var(--space-md);
+    }
+    @container (min-width: 520px) {
+      .card-inner-split {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      }
+    }
+    @container (max-width: 519px) {
+      .card-inner-split {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    /* Section Navigation Bar */
+    .section-nav {
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-top: var(--section-rule);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md) var(--space-lg);
+    }
+    .nav-header-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-sm);
+    }
+    .nav-title {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 600;
+      color: var(--secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+    }
+    .nav-toggle-btn {
+      display: none;
+      align-items: center;
+      gap: var(--space-xs);
+      min-height: 44px;
+      padding: var(--space-xs) var(--space-md);
+      background: var(--surface-container);
+      color: var(--on-surface);
+      border: var(--control-rule);
+      border-radius: var(--rounded);
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .nav-toggle-btn:hover {
+      background: var(--surface-container-high);
+    }
+    .nav-links-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+    }
+    .nav-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      min-height: 44px;
+      padding: var(--space-xs) var(--space-md);
+      background: var(--background);
+      color: var(--on-surface);
+      border: var(--card-border);
+      border-radius: var(--rounded);
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: background-color var(--dur-micro) var(--ease-out), border-color var(--dur-micro) var(--ease-out);
+    }
+    .nav-chip:hover {
+      background: var(--surface-container);
+      border-color: var(--secondary);
+    }
+    .nav-chip.is-active {
+      background: var(--primary);
+      color: var(--on-primary);
+      border-color: var(--primary);
+    }
+    .nav-chip.is-active .nav-num {
+      color: var(--primary-container);
+    }
+    .nav-num {
+      font-family: var(--font-label);
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--secondary);
+    }
+
+    /* Sections */
+    .course-section {
+      padding-top: var(--space-lg);
+      scroll-margin-top: var(--space-lg);
+    }
+    .section-footer {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-sm);
+      margin-top: var(--space-lg);
+      padding-top: var(--space-sm);
+      border-top: 1px solid var(--outline-variant);
+    }
+    .back-to-nav {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      min-height: 44px;
+      padding: var(--space-xs) var(--space-sm);
+      color: var(--secondary);
+      text-decoration: none;
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 600;
+      border-radius: var(--rounded);
+    }
+    .back-to-nav:hover {
+      background: var(--surface-container);
+      color: var(--on-surface);
+    }
+
+    /* Callouts & aside boxes */
+    .aside-box {
+      background: var(--surface-container);
+      border-top: var(--section-rule);
+      border-radius: 0 0 var(--rounded-lg) var(--rounded-lg);
+      padding: var(--space-lg);
+    }
+    .quote-block {
+      background: var(--surface-container-low);
+      border-left: 4px solid var(--primary-container);
+      border-top: var(--card-border);
+      border-right: var(--card-border);
+      border-bottom: var(--card-border);
+      border-radius: 0 var(--rounded-lg) var(--rounded-lg) 0;
+      padding: var(--space-md) var(--space-lg);
+      margin: var(--space-md) 0;
+    }
+    .quote-block blockquote {
+      margin: 0 0 var(--space-xs) 0;
+      font-family: var(--font-headline);
+      font-style: italic;
+      font-size: 1.125rem;
+      line-height: 1.5;
+      color: var(--on-surface);
+    }
+    .quote-block cite {
+      font-style: normal;
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+    }
+
+    /* Tags & chips */
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      margin-top: var(--space-sm);
+    }
+    .tag-amber {
+      display: inline-block;
+      background: var(--warning-bg);
+      color: var(--tertiary);
+      font-size: 0.8125rem;
+      font-weight: 600;
+      padding: var(--space-xs) var(--space-sm);
+      border-radius: var(--rounded);
+    }
+    .tag-slate {
+      display: inline-block;
+      background: var(--secondary-bg);
+      color: var(--secondary);
+      font-size: 0.8125rem;
+      font-weight: 600;
+      padding: var(--space-xs) var(--space-sm);
+      border-radius: var(--rounded);
+    }
+    .tag-green {
+      display: inline-block;
+      background: var(--positive-bg);
+      color: var(--positive);
+      font-size: 0.8125rem;
+      font-weight: 600;
+      padding: var(--space-xs) var(--space-sm);
+      border-radius: var(--rounded);
+    }
+
+    /* Lists */
+    .dossier-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .dossier-list li {
+      padding: var(--space-sm) 0;
+      border-bottom: 1px solid var(--outline-variant);
+    }
+    .dossier-list li:last-child {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+    .dossier-list li:first-child {
+      padding-top: 0;
+    }
+
+    /* Tables */
+    .table-scroll {
+      overflow-x: auto;
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+    }
+    table.dossier-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.9375rem;
+    }
+    table.dossier-table thead th {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--on-surface-variant);
+      background: var(--surface-container);
+      border-bottom: var(--section-rule);
+      padding: var(--space-md);
+      white-space: nowrap;
+    }
+    table.dossier-table tbody td {
+      padding: var(--space-md);
+      border-bottom: 1px solid var(--outline-variant);
+      vertical-align: top;
+      line-height: 1.5;
+    }
+    table.dossier-table tbody tr:last-child td {
+      border-bottom: 0;
+    }
+
+    /* Interactive Stepper / Segmented Buttons */
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-md);
+    }
+    .step-btn {
+      min-height: 44px;
+      padding: var(--space-sm) var(--space-md);
+      background: var(--surface-container-low);
+      color: var(--on-surface);
+      border: var(--control-rule);
+      border-radius: var(--rounded);
+      font-size: 0.9375rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      transition: background-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out), border-color var(--dur-micro) var(--ease-out);
+    }
+    .step-btn:hover {
+      background: var(--surface-container);
+      border-color: var(--secondary);
+    }
+    .step-btn.is-active {
+      background: var(--primary);
+      color: var(--on-primary);
+      border-color: var(--primary);
+    }
+    .step-btn.is-active .btn-code {
+      color: var(--primary-container);
+    }
+    .btn-code {
+      font-family: var(--font-label);
+      font-size: 0.75rem;
+      color: var(--secondary);
+    }
+
+    /* Interactive Cloud Stack */
+    .cloud-stack {
+      display: grid;
+      gap: var(--space-sm);
+    }
+    .cloud-layer-btn {
+      width: 100%;
+      text-align: left;
+      min-height: 54px;
+      padding: var(--space-md);
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-left: 4px solid var(--outline-variant);
+      border-radius: var(--rounded-lg);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-md);
+      transition: background-color var(--dur-micro) var(--ease-out), border-color var(--dur-micro) var(--ease-out);
+    }
+    .cloud-layer-btn:hover {
+      background: var(--surface-container);
+    }
+    .cloud-layer-btn.is-active {
+      background: var(--surface-container-low);
+      border-color: var(--secondary);
+      border-left: 4px solid var(--primary-container);
+      box-shadow: 0 2px 8px rgba(23, 24, 26, 0.06);
+    }
+    .cloud-layer-name {
+      font-family: var(--font-headline);
+      font-weight: 600;
+      font-size: 1.125rem;
+      color: var(--on-surface);
+      display: block;
+    }
+    .cloud-layer-sub {
+      font-size: 0.875rem;
+      color: var(--on-surface-variant);
+    }
+
+    /* Responsibility Meter Bars */
+    .meter-row {
+      display: grid;
+      grid-template-columns: 140px minmax(0, 1fr);
+      gap: var(--space-sm);
+      align-items: center;
+      padding: var(--space-xs) 0;
+      border-bottom: 1px solid var(--outline-variant);
+    }
+    .meter-row:last-child { border-bottom: 0; }
+    .meter-label {
+      font-family: var(--font-label);
+      font-size: 0.8125rem;
+      color: var(--on-surface);
+    }
+    .meter-badge-user {
+      display: inline-block;
+      padding: var(--space-xs) var(--space-sm);
+      background: var(--secondary-bg);
+      color: var(--secondary);
+      border-radius: var(--rounded);
+      font-size: 0.8125rem;
+      font-weight: 600;
+    }
+    .meter-badge-vendor {
+      display: inline-block;
+      padding: var(--space-xs) var(--space-sm);
+      background: var(--warning-bg);
+      color: var(--tertiary);
+      border-radius: var(--rounded);
+      font-size: 0.8125rem;
+      font-weight: 600;
+    }
+
+    /* Prompt Engineering Interactive Builder */
+    .prompt-controls {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(210px, 100%), 1fr));
+      gap: var(--space-md);
+      margin-bottom: var(--space-md);
+    }
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+    .field-label {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 600;
+      color: var(--secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .dossier-select {
+      min-height: 44px;
+      padding: var(--space-sm) var(--space-xl) var(--space-sm) var(--space-md);
+      background: var(--surface-container-low);
+      color: var(--on-surface);
+      border: var(--control-rule);
+      border-radius: var(--rounded);
+      font-size: 0.9375rem;
+      font-weight: 500;
+      cursor: pointer;
+    }
+    .prompt-output {
+      background: var(--surface-container);
+      border-left: 4px solid var(--secondary);
+      border-radius: 0 var(--rounded-lg) var(--rounded-lg) 0;
+      padding: var(--space-md) var(--space-lg);
+      font-family: var(--font-body);
+      font-size: 0.975rem;
+      line-height: 1.6;
+    }
+    .prompt-token {
+      display: inline;
+      padding: 1px var(--space-xs);
+      border-radius: var(--badge-radius);
+      font-weight: 600;
+    }
+    .tok-role { background: var(--secondary-bg); color: var(--secondary); }
+    .tok-ctx { background: var(--warning-bg); color: var(--tertiary); }
+    .tok-task { background: var(--positive-bg); color: var(--positive); }
+    .tok-fmt { background: var(--surface-container-high); color: var(--on-surface); }
+
+    /* Interactive Diagram & Quiz */
+    .svg-panel {
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md);
+    }
+    .quiz-card {
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-lg);
+      margin-bottom: var(--space-md);
+    }
+    .quiz-options {
+      display: grid;
+      gap: var(--space-sm);
+      margin-top: var(--space-md);
+    }
+    .quiz-option-btn {
+      width: 100%;
+      text-align: left;
+      min-height: 44px;
+      padding: var(--space-sm) var(--space-md);
+      background: var(--background);
+      color: var(--on-surface);
+      border: var(--card-border);
+      border-radius: var(--rounded);
+      font-size: 0.9375rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      transition: background-color var(--dur-micro) var(--ease-out), border-color var(--dur-micro) var(--ease-out);
+    }
+    .quiz-option-btn:hover:not(:disabled) {
+      background: var(--surface-container);
+      border-color: var(--secondary);
+    }
+    .quiz-option-btn.is-correct {
+      background: var(--positive-bg);
+      border-color: var(--positive);
+      color: var(--on-surface);
+      font-weight: 600;
+    }
+    .quiz-option-btn.is-wrong {
+      background: var(--error-bg);
+      border-color: var(--error);
+      color: var(--on-surface);
+    }
+    .quiz-feedback {
+      margin-top: var(--space-md);
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--rounded);
+      font-size: 0.9375rem;
+      display: none;
+    }
+    .quiz-feedback.show { display: block; }
+    .quiz-feedback.ok { background: var(--positive-bg); color: var(--positive); border-left: 3px solid var(--positive); }
+    .quiz-feedback.bad { background: var(--error-bg); color: var(--error); border-left: 3px solid var(--error); }
+
+    .primary-btn {
+      min-height: 44px;
+      padding: var(--space-sm) var(--space-lg);
+      background: var(--primary);
+      color: var(--on-primary);
+      border: 0;
+      border-radius: var(--rounded);
+      font-size: 0.9375rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+    }
+    .primary-btn:hover { background: var(--secondary); }
+
+    .secondary-btn {
+      min-height: 44px;
+      padding: var(--space-sm) var(--space-lg);
+      background: var(--surface-container-low);
+      color: var(--on-surface);
+      border: var(--control-rule);
+      border-radius: var(--rounded);
+      font-size: 0.9375rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+    }
+    .secondary-btn:hover { background: var(--surface-container); }
+
+    /* Collapsible details */
+    details.dossier-details {
+      background: var(--surface-container);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md) var(--space-lg);
+      margin-top: var(--space-md);
+    }
+    details.dossier-details summary {
+      font-weight: 600;
+      color: var(--secondary);
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 36px;
+    }
+    details.dossier-details summary::-webkit-details-marker { display: none; }
+    details.dossier-details[open] summary {
+      margin-bottom: var(--space-sm);
+      padding-bottom: var(--space-sm);
+      border-bottom: 1px solid var(--outline-variant);
+    }
+
+    /* Footer */
+    .page-footer {
+      border-top: var(--section-rule);
+      padding-top: var(--space-lg);
+      margin-top: var(--space-xl);
+      color: var(--on-surface-variant);
+      font-size: 0.875rem;
+    }
+
+    /* Mobile adaptations */
+    @media (max-width: 768px) {
+      .asymmetric-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+    @media (max-width: 640px) {
+      .page-grid {
+        grid-template-columns: minmax(0, 1fr);
+        padding: var(--space-md);
+        gap: var(--space-lg);
+      }
+      .section-nav {
+        padding: var(--space-md);
+      }
+      .nav-toggle-btn {
+        display: inline-flex;
+      }
+      .nav-links-grid {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding-bottom: var(--space-xs);
+        -webkit-overflow-scrolling: touch;
+      }
+      .nav-links-grid.is-expanded {
+        flex-wrap: wrap;
+        overflow-x: visible;
+      }
+      .nav-chip {
+        flex: 0 0 auto;
+      }
+      .meter-row {
+        grid-template-columns: minmax(0, 1fr);
+        gap: var(--space-xs);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-grid">
+
+    <!-- MASTHEAD HEADER -->
+    <header aria-label="Phần mở đầu học phần">
+      <div class="dossier-bar">
+        <div class="dossier-bar-left">
+          <span class="dossier-pill">Học phần CNTT 4.0</span>
+          <span class="dossier-meta">HỒ SƠ TỔNG HỢP · 8 BÀI GIẢNG &amp; CHUYÊN ĐỀ SKTS</span>
+        </div>
+        <span class="dossier-meta">CẬP NHẬT PHÁP LÝ 2026</span>
+      </div>
+
+      <h1 class="hero-title">Công nghệ thông tin 4.0: Từ nền tảng số đến sáng tạo sản phẩm thực tế</h1>
+      <p class="standfirst">
+        Tài liệu tổng hợp toàn bộ nội dung cốt lõi của học phần — từ bản chất Cách mạng công nghiệp 4.0, hạ tầng máy tính, hệ điều hành, Cloud và AI, đến tư duy tự động hóa, sáng kiến khởi nghiệp công nghệ và hành lang pháp lý tại Việt Nam.
+      </p>
+
+      <div class="card-grid" aria-label="Tổng quan cấu trúc học phần">
+        <div class="figure-card compact">
+          <div class="kpi-label">Chuyên đề cốt lõi</div>
+          <div class="value">08</div>
+          <div class="kpi-sub">Bài giảng nền tảng từ CMCN 4.0 đến An toàn thông tin &amp; Đạo đức số</div>
+        </div>
+        <div class="figure-card compact">
+          <div class="kpi-label">Công nghệ lõi 4.0</div>
+          <div class="value">05</div>
+          <div class="kpi-sub">AI / GenAI, Big Data, IoT, Cloud Computing và Blockchain</div>
+        </div>
+        <div class="figure-card compact">
+          <div class="kpi-label">Nhóm kỹ năng SKTS</div>
+          <div class="value">04</div>
+          <div class="kpi-sub">Khám phá vấn đề, Tạo mẫu, Thị trường &amp; Thương mại hóa</div>
+        </div>
+        <div class="figure-card compact">
+          <div class="kpi-label">Luật AI Việt Nam</div>
+          <div class="value">01/03/2026</div>
+          <div class="kpi-sub">Ngày hiệu lực Luật Trí tuệ nhân tạo số 134/2025/QH15</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- NAVIGATION BAR -->
+    <nav id="muc-luc" class="section-nav" aria-label="Thanh điều hướng các mục">
+      <div class="nav-header-row">
+        <span class="nav-title">
+          <i data-lucide="compass" aria-hidden="true" width="16" height="16"></i>
+          Thanh điều hướng các mục học phần
+        </span>
+        <button type="button" class="nav-toggle-btn" id="nav-expand-btn" onclick="toggleMobileNav(this)" aria-expanded="false">
+          <i data-lucide="layout-grid" aria-hidden="true" width="16" height="16"></i>
+          <span>Xem dạng lưới</span>
+        </button>
+      </div>
+      <div class="nav-links-grid" id="nav-links-list">
+        <a href="#muc-01" class="nav-chip is-active" onclick="setActiveNav(this)"><span class="nav-num">01</span> Tổng quan 4.0 &amp; CĐS</a>
+        <a href="#muc-02" class="nav-chip" onclick="setActiveNav(this)"><span class="nav-num">02</span> Phần cứng &amp; Hệ điều hành</a>
+        <a href="#muc-03" class="nav-chip" onclick="setActiveNav(this)"><span class="nav-num">03</span> Phần mềm &amp; Cloud</a>
+        <a href="#muc-04" class="nav-chip" onclick="setActiveNav(this)"><span class="nav-num">04</span> Mạng, 6G &amp; IoT</a>
+        <a href="#muc-05" class="nav-chip" onclick="setActiveNav(this)"><span class="nav-num">05</span> Tự động hóa &amp; Low-code</a>
+        <a href="#muc-06" class="nav-chip" onclick="setActiveNav(this)"><span class="nav-num">06</span> AI, Dữ liệu &amp; Prompt</a>
+        <a href="#muc-07" class="nav-chip" onclick="setActiveNav(this)"><span class="nav-num">07</span> 5 Công nghệ lõi</a>
+        <a href="#muc-08" class="nav-chip" onclick="setActiveNav(this)"><span class="nav-num">08</span> SKTS &amp; Thương mại hóa</a>
+        <a href="#muc-09" class="nav-chip" onclick="setActiveNav(this)"><span class="nav-num">09</span> An toàn, Đạo đức &amp; Luật</a>
+        <a href="#muc-10" class="nav-chip" onclick="setActiveNav(this)"><span class="nav-num">10</span> Ôn tập nhanh</a>
+      </div>
+    </nav>
+
+    <main>
+
+      <!-- SECTION 01 -->
+      <section id="muc-01" class="course-section">
+        <div class="dossier-bar">
+          <div class="dossier-bar-left">
+            <span class="dossier-pill">Mục 01</span>
+            <span class="dossier-meta">SLIDE 1 · VIDEO KHÁI NIỆM 4.0 · PODCAST NHẬP MÔN</span>
+          </div>
+          <span class="index-num">01 / 09</span>
+        </div>
+
+        <h2 class="section-title">Toàn cảnh CMCN 4.0, CNTT 4.0 và Chuyển đổi số</h2>
+        <p class="section-deck">
+          Hiểu đúng bản chất sự chuyển dịch từ thiết bị điện tử rời rạc sang hệ sinh thái kết nối thông minh — nền tảng của kinh tế số và xã hội số.
+        </p>
+
+        <div class="asymmetric-grid">
+          <div>
+            <p class="prose">
+              <strong>Cách mạng công nghiệp (CMCN)</strong> là sự thay đổi lớn trong công nghệ sản xuất làm biến đổi sâu sắc cách con người lao động, gắn liền với những phát minh đột phá như máy hơi nước, điện năng và máy tính. Mục tiêu của học phần không phải đào tạo người viết từng dòng mã chuyên sâu, mà giúp bất kỳ ai cũng hiểu thấu đáo cách Cloud, Dữ liệu và AI vận hành để giải phóng con người khỏi những công việc lặp lại nhàm chán.
+            </p>
+            <p class="prose">
+              Thuật ngữ <strong>Cách mạng công nghiệp 4.0</strong> do người Đức đề xuất vào năm 2013 (xu thế toàn cầu bắt đầu từ khoảng năm 2010 đến nay). Nếu ở kỷ nguyên 3.0 con người sở hữu vô vàn thiết bị điện tử kỹ thuật số hoạt động độc lập, thì bước sang 4.0 tất cả thiết bị đó kết nối Internet để trao đổi dữ liệu và hợp tác thành các hệ thống thông minh tự học, tự hỗ trợ ra quyết định.
+            </p>
+            <div class="quote-block">
+              <blockquote>
+                “CNTT 4.0 ứng dụng công nghệ hiện đại để xử lý dữ liệu và tự động hóa; kết nối con người, thiết bị và hệ thống qua Internet; tạo ra hệ thống thông minh làm nền tảng cho Kinh tế số và Xã hội số.”
+              </blockquote>
+              <cite>TỔNG HỢP TỪ SLIDE 1 — TỔNG QUAN CMCN 4.0, CNTT 4.0 &amp; CĐS</cite>
+            </div>
+          </div>
+
+          <aside class="aside-box" aria-label="Mục tiêu và đặc điểm CNTT 4.0">
+            <h3 class="card-heading">4 Đặc điểm nổi bật của CNTT 4.0</h3>
+            <ul class="dossier-list">
+              <li><strong>Kết nối toàn cầu:</strong> Vận hành thông suốt qua hạ tầng Internet tốc độ cao.</li>
+              <li><strong>Xử lý dữ liệu lớn:</strong> Khai thác kho dữ liệu khổng lồ sinh ra từ nhiều nguồn thiết bị khác nhau.</li>
+              <li><strong>Tự động hóa &amp; AI:</strong> Trí tuệ nhân tạo trực tiếp hỗ trợ phân tích và thực thi công việc.</li>
+              <li><strong>Cộng tác không biên giới:</strong> Thúc đẩy làm việc từ xa và cộng tác trực tuyến.</li>
+            </ul>
+            <div class="tag-row">
+              <span class="tag-amber">Kinh tế số</span>
+              <span class="tag-slate">Xã hội số</span>
+              <span class="tag-green">Chuyển đổi số (CĐS)</span>
+            </div>
+          </aside>
+        </div>
+
+        <!-- Interactive 4 Industrial Revolutions Explorer -->
+        <div class="figure-card" style="margin-top: var(--space-lg);">
+          <div class="kpi-label">Khám phá tương tác · Tiến trình 4 cuộc Cách mạng Công nghiệp</div>
+          <h3 class="card-heading">Chọn từng giai đoạn để đối chiếu công nghệ đột phá và tác động</h3>
+          <div class="btn-row" role="tablist" aria-label="Các cuộc cách mạng công nghiệp">
+            <button type="button" class="step-btn is-active" onclick="selectRevolution(0, this)" role="tab" aria-selected="true"><span class="btn-code">1.0</span> Cơ khí hóa</button>
+            <button type="button" class="step-btn" onclick="selectRevolution(1, this)" role="tab" aria-selected="false"><span class="btn-code">2.0</span> Điện khí hóa</button>
+            <button type="button" class="step-btn" onclick="selectRevolution(2, this)" role="tab" aria-selected="false"><span class="btn-code">3.0</span> Tự động hóa</button>
+            <button type="button" class="step-btn" onclick="selectRevolution(3, this)" role="tab" aria-selected="false"><span class="btn-code">4.0</span> Kết nối &amp; Trí tuệ số</button>
+          </div>
+          <div id="rev-panel" class="card-wrapper">
+            <div class="card-inner-split">
+              <div>
+                <div class="kpi-label" id="rev-tag">CUỘC CÁCH MẠNG THỨ NHẤT</div>
+                <h4 class="card-heading" id="rev-title">CMCN 1.0 — Cơ khí hóa sản xuất</h4>
+                <p class="prose" id="rev-desc" style="margin-bottom: var(--space-sm);">
+                  Chuyển dịch lao động thủ công sang sản xuất cơ khí nhờ phát minh động cơ hơi nước, mở đầu kỷ nguyên công xưởng.
+                </p>
+              </div>
+              <div class="aside-box" style="margin: 0;">
+                <div class="kpi-label">Phát minh &amp; Dấu ấn cốt lõi</div>
+                <p id="rev-tech" style="margin: var(--space-xs) 0 0 0; font-weight: 600; color: var(--secondary);">
+                  Động cơ hơi nước &amp; cơ khí hóa dây chuyền sơ khai.
+                </p>
+                <p id="rev-note" class="muted-note" style="margin-top: var(--space-sm);">
+                  Thay đổi trực tiếp sức kéo cơ bắp bằng năng lượng nhiệt – cơ học.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-footer">
+          <span class="muted-note">Trọng tâm: Nắm vững định nghĩa CMCN 4.0, CNTT 4.0 và vai trò chuyển đổi số.</span>
+          <a href="#muc-luc" class="back-to-nav">↑ Về thanh điều hướng</a>
+        </div>
+      </section>
+
+      <!-- SECTION 02 -->
+      <section id="muc-02" class="course-section">
+        <div class="dossier-bar">
+          <div class="dossier-bar-left">
+            <span class="dossier-pill">Mục 02</span>
+            <span class="dossier-meta">SLIDE 2 (COMPUTER, HARDWARE) · SLIDE 3 (OPERATING SYSTEM)</span>
+          </div>
+          <span class="index-num">02 / 09</span>
+        </div>
+
+        <h2 class="section-title">Hạ tầng Tính toán: Phần cứng Máy tính &amp; Hệ điều hành</h2>
+        <p class="section-deck">
+          Nền móng vật lý và lớp điều phối phần mềm giúp mọi thiết bị số vận hành ổn định trên môi trường đa nền tảng.
+        </p>
+
+        <div class="two-col-grid">
+          <article class="figure-card">
+            <span class="index-num" style="margin-bottom: var(--space-sm);">CHUYÊN ĐỀ 2 · HARDWARE</span>
+            <h3 class="card-heading">Máy tính, Phần cứng &amp; Các thế hệ phát triển</h3>
+            <p class="prose">
+              Phần cứng máy tính bao gồm toàn bộ cấu kiện vật lý xử lý, lưu trữ và giao tiếp dữ liệu. Qua các thế hệ máy tính, năng lực tính toán tăng trưởng theo cấp số nhân đồng thời kích thước thu gọn mạnh mẽ, mở đường cho tính toán di động, điện toán biên và hạ tầng trung tâm dữ liệu tương lai.
+            </p>
+            <ul class="dossier-list">
+              <li><strong>Tiến hóa kiến trúc:</strong> Từ máy tính cồng kềnh thế hệ đầu đến vi xử lý tích hợp cao và các thế hệ tương lai.</li>
+              <li><strong>Giới hạn vật lý:</strong> Phần cứng tự thân là vật vô tri — cần lớp hệ điều hành và thuật toán để biến năng lực tính toán thành giá trị thực tiễn.</li>
+            </ul>
+          </article>
+
+          <article class="figure-card">
+            <span class="index-num" style="margin-bottom: var(--space-sm);">CHUYÊN ĐỀ 3 · OPERATING SYSTEM</span>
+            <h3 class="card-heading">Hệ điều hành (OS) &amp; Môi trường đa nền tảng</h3>
+            <p class="prose">
+              <strong>Hệ điều hành (Operating System — OS)</strong> là cầu nối giữa phần cứng và người dùng, quản lý tài nguyên hệ thống để mọi phần mềm ứng dụng có thể chạy an toàn và ổn định.
+            </p>
+            <ul class="dossier-list">
+              <li><strong>Hệ sinh thái phổ biến:</strong> Làm việc linh hoạt trong môi trường số đa nền tảng (máy tính cá nhân, thiết bị di động, máy chủ).</li>
+              <li><strong>Vận hành thực hành:</strong> Biết quy trình cài đặt hệ điều hành chuẩn và các lưu ý tối ưu hiệu năng, bảo mật để sử dụng lâu dài, hiệu quả.</li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="section-footer">
+          <span class="muted-note">Trọng tâm: Hiểu vai trò phần cứng qua các thế hệ và chức năng điều phối của OS.</span>
+          <a href="#muc-luc" class="back-to-nav">↑ Về thanh điều hướng</a>
+        </div>
+      </section>
+
+      <!-- SECTION 03 -->
+      <section id="muc-03" class="course-section">
+        <div class="dossier-bar">
+          <div class="dossier-bar-left">
+            <span class="dossier-pill">Mục 03</span>
+            <span class="dossier-meta">SLIDE 4 (SOFTWARE, CLOUD, PLATFORM) · PODCAST CLOUD &amp; AI</span>
+          </div>
+          <span class="index-num">03 / 09</span>
+        </div>
+
+        <h2 class="section-title">Phần mềm, Điện toán đám mây &amp; Mô hình Nền tảng</h2>
+        <p class="section-deck">
+          Cloud dân chủ hóa sức mạnh tính toán — biến hạ tầng máy chủ đắt đỏ thành dịch vụ dùng theo nhu cầu qua ba tầng IaaS, PaaS và SaaS.
+        </p>
+
+        <div class="asymmetric-grid">
+          <div class="figure-card">
+            <h3 class="card-heading">Phần mềm ứng dụng &amp; Tiện ích tích hợp sẵn</h3>
+            <p class="prose">
+              <strong>Phần mềm ứng dụng</strong> là công cụ thực hiện tác vụ cụ thể theo nhu cầu người dùng, luôn hoạt động dựa trên sự hỗ trợ của hệ điều hành và rất đa dạng theo từng ngành nghề. Khi cài đặt hệ điều hành, người dùng thường được tích hợp sẵn nhóm công cụ cơ bản:
+            </p>
+            <div class="tag-row">
+              <span class="tag-slate">Calculator (Tính toán)</span>
+              <span class="tag-slate">Notepad (Ghi chép thuần)</span>
+              <span class="tag-slate">Paint (Xử lý ảnh cơ bản)</span>
+              <span class="tag-slate">Snipping Tool (Chụp/cắt hình)</span>
+              <span class="tag-slate">Magnifier (Phóng to)</span>
+              <span class="tag-slate">Media Player (Phát đa phương tiện)</span>
+              <span class="tag-slate">Steps Recorder (Ghi thao tác)</span>
+              <span class="tag-slate">Trình duyệt Web</span>
+            </div>
+            <p class="muted-note" style="margin-top: var(--space-md);">
+              Ngoài ra, sinh viên cần thành thạo quy trình tìm nguồn tin cậy để download, cài đặt và gỡ cài đặt phần mềm chuyên dụng sạch sẽ, an toàn.
+            </p>
+          </div>
+
+          <aside class="aside-box">
+            <div class="kpi-label">Góc nhìn từ Podcast Học phần</div>
+            <h3 class="card-heading">“Bình đẳng công nghệ” &amp; Nhà kho dữ liệu</h3>
+            <p class="prose" style="font-size: 0.95rem;">
+              Điện toán đám mây (Cloud Computing) tạo ra khái niệm <strong>bình đẳng công nghệ</strong>: dân chủ hóa sức mạnh máy tính, giúp cá nhân hay startup nhỏ vẫn tiếp cận được hạ tầng tính toán khổng lồ mà không cần tự đầu tư phòng máy.
+            </p>
+            <p class="muted-note">
+              Đồng thời, Cloud đóng vai trò như “nhà kho khổng lồ” lưu trữ hàng triệu GB dữ liệu mỗi ngày — tạo tiền đề để AI bước vào đọc hiểu và phân tích.
+            </p>
+          </aside>
+        </div>
+
+        <!-- Interactive Cloud Service Models Explorer -->
+        <div class="figure-card" style="margin-top: var(--space-lg);">
+          <div class="kpi-label">Mô hình tương tác · Kiến trúc 3 tầng dịch vụ đám mây</div>
+          <h3 class="card-heading">Chọn từng lớp dịch vụ để xem ranh giới quản lý giữa Người dùng và Nhà cung cấp Cloud</h3>
+          <div class="two-col-grid" style="margin-top: var(--space-md);">
+            <div class="cloud-stack" role="tablist" aria-label="Các lớp dịch vụ Cloud">
+              <button type="button" class="cloud-layer-btn is-active" onclick="selectCloudLayer('saas', this)" role="tab" aria-selected="true">
+                <div>
+                  <span class="cloud-layer-name">SaaS — Software as a Service</span>
+                  <span class="cloud-layer-sub">Phần mềm như một dịch vụ (Tầng ứng dụng)</span>
+                </div>
+                <span class="index-num">LỚP TRÊN</span>
+              </button>
+              <button type="button" class="cloud-layer-btn" onclick="selectCloudLayer('paas', this)" role="tab" aria-selected="false">
+                <div>
+                  <span class="cloud-layer-name">PaaS — Platform as a Service</span>
+                  <span class="cloud-layer-sub">Nền tảng phát triển &amp; triển khai (Nằm trên IaaS)</span>
+                </div>
+                <span class="index-num">LỚP GIỮA</span>
+              </button>
+              <button type="button" class="cloud-layer-btn" onclick="selectCloudLayer('iaas', this)" role="tab" aria-selected="false">
+                <div>
+                  <span class="cloud-layer-name">IaaS — Infrastructure as a Service</span>
+                  <span class="cloud-layer-sub">Hạ tầng như một dịch vụ (Thuê máy chủ ảo, mạng)</span>
+                </div>
+                <span class="index-num">LỚP NỀN</span>
+              </button>
+            </div>
+
+            <div class="aside-box" style="margin: 0;" id="cloud-detail-box">
+              <div class="kpi-label" id="cloud-layer-label">ĐANG XEM: SAAS — SOFTWARE AS A SERVICE</div>
+              <p id="cloud-layer-desc" style="margin: var(--space-xs) 0 var(--space-md) 0;">
+                Người dùng cuối sử dụng trực tiếp ứng dụng hoàn chỉnh qua Internet mà không cần lo cài đặt hạ tầng, hệ điều hành hay bảo trì mã nguồn.
+              </p>
+              <div id="cloud-responsibility-rows">
+                <div class="meter-row"><span class="meter-label">Ứng dụng &amp; Dữ liệu</span><span class="meter-badge-vendor">Nhà cung cấp vận hành · Người dùng sử dụng</span></div>
+                <div class="meter-row"><span class="meter-label">Hệ điều hành (OS)</span><span class="meter-badge-vendor">Nhà cung cấp Cloud quản lý</span></div>
+                <div class="meter-row"><span class="meter-label">Máy chủ, Lưu trữ, Mạng</span><span class="meter-badge-vendor">Nhà cung cấp Cloud quản lý</span></div>
+              </div>
+              <p class="muted-note" id="cloud-layer-ex" style="margin-top: var(--space-md);">
+                <strong>Ví dụ điển hình:</strong> Các dịch vụ lưu trữ, văn phòng trực tuyến và công cụ cộng tác trên đám mây.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-footer">
+          <span class="muted-note">Trọng tâm: Phân biệt rạch ròi IaaS, PaaS và SaaS cùng vai trò dân chủ hóa hạ tầng của Cloud.</span>
+          <a href="#muc-luc" class="back-to-nav">↑ Về thanh điều hướng</a>
+        </div>
+      </section>
+
+      <!-- SECTION 04 -->
+      <section id="muc-04" class="course-section">
+        <div class="dossier-bar">
+          <div class="dossier-bar-left">
+            <span class="dossier-pill">Mục 04</span>
+            <span class="dossier-meta">SLIDE 5 (NETWORK, INTERNET, IOT) · VIDEO KIẾN THỨC 4.0</span>
+          </div>
+          <span class="index-num">04 / 09</span>
+        </div>
+
+        <h2 class="section-title">Mạng máy tính, Tương lai 6G &amp; Internet vạn vật (IoT)</h2>
+        <p class="section-deck">
+          Hệ thống mạch máu kết nối từ mạng không dây, di động thế hệ mới đến hàng tỷ cảm biến IoT liên tục tạo dòng chảy dữ liệu lớn.
+        </p>
+
+        <div class="card-grid">
+          <article class="figure-card">
+            <div class="kpi-label">01 · Nền tảng kết nối</div>
+            <h3 class="card-heading">Mạng máy tính &amp; Internet</h3>
+            <p class="prose">
+              Hiểu cơ chế liên kết giữa các máy tính, mạng không dây, mạng di động và mạng Internet toàn cầu để vận dụng hiệu quả trong học tập, làm việc từ xa và xây dựng xã hội số.
+            </p>
+          </article>
+
+          <article class="figure-card">
+            <div class="kpi-label">02 · Hạ tầng tương lai</div>
+            <h3 class="card-heading">Sự phát triển mạng &amp; Tầm nhìn 6G</h3>
+            <p class="prose">
+              Từ các thế hệ mạng truyền thống tiến lên kết nối băng thông siêu rộng, độ trễ cực thấp (hướng tới <strong>mạng 6G</strong>), cho phép truyền tải dữ liệu thời gian thực ở quy mô khổng lồ.
+            </p>
+          </article>
+
+          <article class="figure-card">
+            <div class="kpi-label">03 · Internet of Things</div>
+            <h3 class="card-heading">Vạn vật kết nối (IoT)</h3>
+            <p class="prose">
+              Từ bóng đèn, nồi cơm, đồng hồ thông minh, ô tô đến camera giao thông đều gắn cảm biến kết nối Internet — biến thế giới vật lý thành nguồn cung cấp <strong>Big Data</strong> liên tục.
+            </p>
+          </article>
+        </div>
+
+        <div class="aside-box" style="margin-top: var(--space-lg);">
+          <div class="card-wrapper">
+            <div class="card-inner-split">
+              <div>
+                <div class="kpi-label">Ví dụ thực tế từ nguồn bài giảng</div>
+                <h3 class="card-heading">Dữ liệu sinh ra như thế nào trong một ngày bình thường?</h3>
+                <ul class="dossier-list">
+                  <li><strong>Camera đường phố:</strong> Liên tục gửi luồng hình ảnh phản ánh tình trạng giao thông theo thời gian thực.</li>
+                  <li><strong>Đồng hồ thông minh:</strong> Ghi nhận số bước đi bộ, lượng calo tiêu thụ và nhịp sinh học cá nhân.</li>
+                  <li><strong>Điện thoại thông minh:</strong> Lưu dấu vị trí di chuyển và chuỗi thao tác ứng dụng trong ngày.</li>
+                </ul>
+              </div>
+              <div>
+                <div class="kpi-label">Nguyên tắc sử dụng</div>
+                <h3 class="card-heading">Khai thác Internet an toàn &amp; hiệu quả</h3>
+                <p class="prose" style="font-size: 0.95rem;">
+                  Khi mọi thiết bị đều kết nối mạng, ý thức sử dụng Internet an toàn là yêu cầu bắt buộc: kiểm soát quyền truy cập thiết bị IoT, bảo vệ mạng không dây cá nhân và kiểm chứng nguồn thông tin trước khi chia sẻ.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-footer">
+          <span class="muted-note">Trọng tâm: Cơ chế IoT tạo Big Data, lộ trình mạng 6G và thói quen dùng mạng an toàn.</span>
+          <a href="#muc-luc" class="back-to-nav">↑ Về thanh điều hướng</a>
+        </div>
+      </section>
+
+      <!-- SECTION 05 -->
+      <section id="muc-05" class="course-section">
+        <div class="dossier-bar">
+          <div class="dossier-bar-left">
+            <span class="dossier-pill">Mục 05</span>
+            <span class="dossier-meta">SLIDE 6 — COMPUTATIONAL THINKING &amp; IT AUTOMATION</span>
+          </div>
+          <span class="index-num">05 / 09</span>
+        </div>
+
+        <h2 class="section-title">Tư duy lập trình, Tự động hóa IT &amp; Low-code / Vibe-code</h2>
+        <p class="section-deck">
+          Không nhất thiết phải viết hàng nghìn dòng mã thủ công — tư duy thuật toán kết hợp nền tảng tự động hóa mở rộng khả năng kiến tạo công cụ cho mọi ngành nghề.
+        </p>
+
+        <div class="two-col-grid" style="margin-bottom: var(--space-lg);">
+          <article class="figure-card">
+            <div class="kpi-label">COMPUTATIONAL THINKING</div>
+            <h3 class="card-heading">Tư duy lập trình</h3>
+            <p class="prose">
+              Là phương pháp tiếp cận và giải quyết vấn đề một cách logic, có cấu trúc: chia nhỏ bài toán phức tạp, nhận diện quy luật, trừu tượng hóa yếu tố cốt lõi và thiết kế từng bước xử lý rõ ràng để máy tính hoặc quy trình tự động có thể thực thi chính xác.
+            </p>
+          </article>
+
+          <article class="figure-card">
+            <div class="kpi-label">IT AUTOMATION · RPA</div>
+            <h3 class="card-heading">Tự động hóa cấp độ ứng dụng (RPA)</h3>
+            <p class="prose">
+              <strong>RPA (Robotic Process Automation)</strong> là tự động hóa quy trình ở cấp độ ứng dụng: phần mềm mô phỏng thao tác lặp đi lặp lại của con người trên giao diện (nhập liệu, đối chiếu biểu mẫu, gửi báo cáo), giúp giảm sai sót và giải phóng sức lao động trí óc cho công việc sáng tạo hơn.
+            </p>
+          </article>
+        </div>
+
+        <div class="table-scroll">
+          <table class="dossier-table">
+            <thead>
+              <tr>
+                <th>Phương thức phát triển</th>
+                <th>Cách thức tạo sản phẩm</th>
+                <th>Mức độ viết code</th>
+                <th>Vai trò trong kỷ nguyên 4.0</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Lập trình truyền thống</strong></td>
+                <td>Viết mã nguồn trực tiếp bằng ngôn ngữ lập trình và framework.</td>
+                <td>Toàn phần (Pro-code)</td>
+                <td>Xây dựng hệ thống lõi phức tạp, tối ưu hiệu năng và bảo mật chuyên sâu.</td>
+              </tr>
+              <tr>
+                <td><strong>Low-code</strong></td>
+                <td>Kéo thả thành phần trực quan kết hợp viết thêm đoạn mã tùy biến khi cần.</td>
+                <td>Tối thiểu (Ít code)</td>
+                <td>Triển khai nhanh quy trình tự động hóa doanh nghiệp và ứng dụng nội bộ.</td>
+              </tr>
+              <tr>
+                <td><strong>No-code</strong></td>
+                <td>Lắp ghép hoàn toàn qua giao diện đồ họa, mẫu dựng sẵn và cấu hình logic.</td>
+                <td>Không viết code</td>
+                <td>Giúp người làm kinh doanh, vận hành tự tạo công cụ và bản thử nghiệm (MVP).</td>
+              </tr>
+              <tr>
+                <td><strong>Vibe-code</strong></td>
+                <td>Mô tả ý định, yêu cầu bằng ngôn ngữ tự nhiên để AI tạo sinh sinh mã và chỉnh sửa lặp.</td>
+                <td>Điều phối bằng câu lệnh (Prompt)</td>
+                <td>Rút ngắn tối đa khoảng cách từ ý tưởng đến mẫu thử hoạt động nhờ AI cộng tác.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="section-footer">
+          <span class="muted-note">Trọng tâm: Phân biệt RPA, Low-code, No-code và xu hướng Vibe-code.</span>
+          <a href="#muc-luc" class="back-to-nav">↑ Về thanh điều hướng</a>
+        </div>
+      </section>
+
+      <!-- SECTION 06 -->
+      <section id="muc-06" class="course-section">
+        <div class="dossier-bar">
+          <div class="dossier-bar-left">
+            <span class="dossier-pill">Mục 06</span>
+            <span class="dossier-meta">SLIDE 7 (AI, DATA IN STUDYING &amp; WORKING) · PODCAST BẢN CHẤT AI</span>
+          </div>
+          <span class="index-num">06 / 09</span>
+        </div>
+
+        <h2 class="section-title">Trí tuệ nhân tạo (AI), Dữ liệu &amp; Kỹ thuật Prompt Engineering</h2>
+        <p class="section-deck">
+          Dữ liệu là nhiên liệu, AI là động cơ, nhưng tư duy lấy con người làm trung tâm mới là vô-lăng định hướng tương lai.
+        </p>
+
+        <div class="asymmetric-grid">
+          <div>
+            <p class="prose">
+              Khi Cloud chứa hàng triệu GB dữ liệu mỗi ngày, không một cá nhân nào đủ thời gian đọc từng dòng lịch sử mua hàng hay thao tác người dùng. Đó là lúc cần một “bộ não” phân tích: <strong>Trí tuệ nhân tạo (AI)</strong> — lĩnh vực khoa học máy tính hướng tới việc mô phỏng quá trình nhận thức, học hỏi và suy luận của con người.
+            </p>
+            <div class="quote-block">
+              <blockquote>
+                “Máy tính khuếch đại trí tuệ của con người, nhưng bản thân phần cứng vô tri không hề tự sinh ra trí tuệ. Sức mạnh nằm ở mô hình thuật toán mà con người tạo ra để mô phỏng tư duy logic — giống như một cái đòn bẩy vĩ đại.”
+              </blockquote>
+              <cite>TRÍCH NỘI DUNG PHÂN TÍCH CHUYÊN SÂU — CON NGƯỜI CẦM LÁI CLOUD VÀ AI</cite>
+            </div>
+            <p class="prose">
+              Trong học tập và công việc, hiệu quả khai thác AI tạo sinh phụ thuộc trực tiếp vào <strong>Prompt Engineering</strong> — kỹ năng thiết kế câu lệnh rõ bối cảnh, vai trò, mục tiêu và định dạng đầu ra để dẫn dắt mô hình đưa ra kết quả chính xác, có thể kiểm chứng.
+            </p>
+          </div>
+
+          <div class="svg-panel" aria-label="Sơ đồ Bộ ba Động lực Phát triển 4.0">
+            <div class="kpi-label" style="margin-bottom: var(--space-sm);">MÔ HÌNH ĐỊNH HƯỚNG PHÁT TRIỂN 4.0 (SLIDE 7)</div>
+            <svg viewBox="0 0 360 270" width="100%" height="auto" role="img" aria-label="Dữ liệu là nhiên liệu, AI là động cơ, Con người làm trung tâm là vô lăng">
+              <rect x="10" y="12" width="340" height="68" rx="6" fill="var(--surface-container)" stroke="var(--outline-variant)" stroke-width="1.5"/>
+              <text x="26" y="38" font-family="var(--font-label)" font-size="11" font-weight="600" fill="var(--secondary)">01 · NHIÊN LIỆU</text>
+              <text x="26" y="61" font-family="var(--font-headline)" font-size="16" font-weight="600" fill="var(--on-surface)">Dữ liệu (Big Data &amp; Tri thức)</text>
+
+              <line x1="180" y1="80" x2="180" y2="100" stroke="var(--outline)" stroke-width="1.5"/>
+              <polygon points="175,96 185,96 180,103" fill="var(--outline)"/>
+
+              <rect x="10" y="104" width="340" height="68" rx="6" fill="var(--secondary-bg)" stroke="var(--secondary)" stroke-width="1.5"/>
+              <text x="26" y="130" font-family="var(--font-label)" font-size="11" font-weight="600" fill="var(--secondary)">02 · ĐỘNG CƠ</text>
+              <text x="26" y="153" font-family="var(--font-headline)" font-size="16" font-weight="600" fill="var(--on-surface)">Trí tuệ nhân tạo (AI &amp; Thuật toán)</text>
+
+              <line x1="180" y1="172" x2="180" y2="192" stroke="var(--outline)" stroke-width="1.5"/>
+              <polygon points="175,188 185,188 180,195" fill="var(--outline)"/>
+
+              <rect x="10" y="196" width="340" height="64" rx="6" fill="var(--primary-container)" stroke="var(--outline)" stroke-width="1.5"/>
+              <text x="26" y="220" font-family="var(--font-label)" font-size="11" font-weight="700" fill="var(--on-primary-container)">03 · VÔ-LĂNG ĐỊNH HƯỚNG</text>
+              <text x="26" y="242" font-family="var(--font-headline)" font-size="15.5" font-weight="700" fill="var(--on-primary-container)">Chính sách lấy con người làm trung tâm</text>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Interactive Prompt Engineering Lab -->
+        <div class="figure-card" style="margin-top: var(--space-lg);">
+          <div class="kpi-label">Phòng thực hành mini · Kỹ thuật Prompt Engineering</div>
+          <h3 class="card-heading">Lắp ghép cấu trúc câu lệnh 4 thành phần cho học tập &amp; công việc</h3>
+          <div class="prompt-controls">
+            <div class="field-group">
+              <label class="field-label" for="sel-role">1. Vai trò (Role)</label>
+              <select id="sel-role" class="dossier-select" onchange="updatePromptPreview()">
+                <option value="Đóng vai giảng viên hướng dẫn môn CNTT 4.0">Giảng viên hướng dẫn CNTT 4.0</option>
+                <option value="Đóng vai chuyên gia phân tích sản phẩm và mô hình kinh doanh">Chuyên gia sản phẩm &amp; thị trường</option>
+                <option value="Đóng vai kỹ sư an toàn thông tin tại doanh nghiệp">Kỹ sư an toàn thông tin</option>
+              </select>
+            </div>
+            <div class="field-group">
+              <label class="field-label" for="sel-task">2. Nhiệm vụ (Task)</label>
+              <select id="sel-task" class="dossier-select" onchange="updatePromptPreview()">
+                <option value="giải thích sự khác biệt giữa IaaS, PaaS và SaaS bằng ví dụ thực tế">Phân biệt IaaS, PaaS, SaaS</option>
+                <option value="đánh giá tính khả thi của một ý tưởng MVP giải quyết vấn đề điểm danh sinh viên">Đánh giá ý tưởng MVP</option>
+                <option value="lập danh sách kiểm tra bảo mật dữ liệu cá nhân theo tam giác C-I-A">Kiểm tra bảo mật theo C-I-A</option>
+              </select>
+            </div>
+            <div class="field-group">
+              <label class="field-label" for="sel-format">3. Định dạng &amp; Ràng buộc</label>
+              <select id="sel-format" class="dossier-select" onchange="updatePromptPreview()">
+                <option value="Trình bày dạng bảng so sánh 3 cột, ngôn ngữ súc tích dưới 200 từ.">Bảng so sánh &lt; 200 từ</option>
+                <option value="Chia thành 5 gạch đầu dòng hành động cụ thể, nêu rõ rủi ro cần tránh.">5 bước hành động + rủi ro</option>
+                <option value="Dùng ngôn ngữ dễ hiểu cho người không chuyên code, kèm 1 ví dụ minh họa.">Dễ hiểu cho người không code</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="prompt-output" id="prompt-preview-box">
+            <span class="prompt-token tok-role">Đóng vai giảng viên hướng dẫn môn CNTT 4.0</span>, hãy
+            <span class="prompt-token tok-task">giải thích sự khác biệt giữa IaaS, PaaS và SaaS bằng ví dụ thực tế</span>
+            <span class="prompt-token tok-ctx">phục vụ sinh viên ôn tập học phần</span>.
+            <span class="prompt-token tok-fmt">Trình bày dạng bảng so sánh 3 cột, ngôn ngữ súc tích dưới 200 từ.</span>
+          </div>
+        </div>
+
+        <div class="section-footer">
+          <span class="muted-note">Trọng tâm: AI khuếch đại trí tuệ con người; biết cấu trúc Prompt rõ ràng để làm chủ công cụ.</span>
+          <a href="#muc-luc" class="back-to-nav">↑ Về thanh điều hướng</a>
+        </div>
+      </section>
+
+      <!-- SECTION 07 -->
+      <section id="muc-07" class="course-section">
+        <div class="dossier-bar">
+          <div class="dossier-bar-left">
+            <span class="dossier-pill">Mục 07</span>
+            <span class="dossier-meta">GHI CHÚ LƯU TRỮ · BẢN ĐỒ TƯ DUY · SLIDE 1</span>
+          </div>
+          <span class="index-num">07 / 09</span>
+        </div>
+
+        <h2 class="section-title">Hệ sinh thái 5 Công nghệ Lõi của Kỷ nguyên 4.0</h2>
+        <p class="section-deck">
+          Năm trụ cột thực thi không đứng tách rời mà liên kết thành vòng tuần hoàn từ thu thập dữ liệu đến tạo giá trị tin cậy.
+        </p>
+
+        <div class="card-grid">
+          <article class="figure-card">
+            <div class="kpi-label">TRỤ CỘT 01</div>
+            <h3 class="card-heading">AI &amp; GenAI</h3>
+            <p class="prose" style="font-size: 0.95rem;">
+              Giúp máy tính học hỏi, suy luận, nhận diện mẫu và tạo sinh nội dung/mã nguồn, biến dữ liệu thô thành quyết định thông minh.
+            </p>
+          </article>
+          <article class="figure-card">
+            <div class="kpi-label">TRỤ CỘT 02</div>
+            <h3 class="card-heading">Big Data</h3>
+            <p class="prose" style="font-size: 0.95rem;">
+              Xử lý lượng dữ liệu cực lớn phát sinh liên tục từ đa nguồn (giao dịch, cảm biến, hành vi số) mà công cụ truyền thống không đáp ứng nổi.
+            </p>
+          </article>
+          <article class="figure-card">
+            <div class="kpi-label">TRỤ CỘT 03</div>
+            <h3 class="card-heading">IoT (Vạn vật kết nối)</h3>
+            <p class="prose" style="font-size: 0.95rem;">
+              Kết nối thế giới vật lý lên Internet qua cảm biến và thiết bị thông minh, cung cấp dòng dữ liệu thực tế cho toàn hệ thống.
+            </p>
+          </article>
+          <article class="figure-card">
+            <div class="kpi-label">TRỤ CỘT 04</div>
+            <h3 class="card-heading">Cloud Computing</h3>
+            <p class="prose" style="font-size: 0.95rem;">
+              Lưu trữ và xử lý dữ liệu quy mô lớn trên Internet, cung cấp năng lực tính toán linh hoạt cho cả doanh nghiệp lớn lẫn sinh viên khởi nghiệp.
+            </p>
+          </article>
+          <article class="figure-card">
+            <div class="kpi-label">TRỤ CỘT 05</div>
+            <h3 class="card-heading">Blockchain</h3>
+            <p class="prose" style="font-size: 0.95rem;">
+              Nền tảng sổ cái phân tán giúp ghi nhận giao dịch minh bạch, khó bị chỉnh sửa, tăng cường niềm tin số khi trao đổi dữ liệu và tài sản.
+            </p>
+          </article>
+        </div>
+
+        <div class="section-footer">
+          <span class="muted-note">Trọng tâm: Ghi nhớ 5 công nghệ nền tảng thực thi gồm AI, Big Data, IoT, Cloud và Blockchain.</span>
+          <a href="#muc-luc" class="back-to-nav">↑ Về thanh điều hướng</a>
+        </div>
+      </section>
+
+      <!-- SECTION 08 -->
+      <section id="muc-08" class="course-section">
+        <div class="dossier-bar">
+          <div class="dossier-bar-left">
+            <span class="dossier-pill">Mục 08</span>
+            <span class="dossier-meta">GHI CHÚ SKTS · KTS &amp; CNTT 4.0 · ĐỔI MỚI SÁNG TẠO</span>
+          </div>
+          <span class="index-num">08 / 09</span>
+        </div>
+
+        <h2 class="section-title">Sáng kiến Trí tuệ Sáng tạo (SKTS) &amp; Thương mại hóa Sản phẩm</h2>
+        <p class="section-deck">
+          Công nghệ chỉ là công cụ — mục tiêu của môn học là trang bị tư duy để biến ý tưởng kỹ thuật thành sản phẩm thực tế có giá trị thương mại.
+        </p>
+
+        <div class="two-col-grid" style="margin-bottom: var(--space-lg);">
+          <div class="figure-card">
+            <div class="kpi-label">4 KHÁI NIỆM CỐT LÕI CỦA SKTS</div>
+            <ul class="dossier-list">
+              <li>
+                <strong>Sáng kiến Trí tuệ Sáng tạo (SKTS):</strong> Giải pháp, sản phẩm hoặc mô hình mới ra đời để giải quyết đúng “nỗi đau” (<em>pain point</em>) thực tế của người dùng hoặc xã hội.
+              </li>
+              <li>
+                <strong>Đổi mới sáng tạo mở (Open Innovation):</strong> Tận dụng nguồn mở (Open Source), API, dữ liệu mở (Open Data) và hợp tác liên tổ chức để đi nhanh hơn thay vì làm lại từ đầu.
+              </li>
+              <li>
+                <strong>Chuyển đổi số &amp; Công nghệ lõi 4.0:</strong> Chọn đúng công nghệ thực thi (AI/GenAI, Big Data, IoT, Cloud, Blockchain) phù hợp bài toán.
+              </li>
+              <li>
+                <strong>MVP (Minimum Viable Product):</strong> Phiên bản sản phẩm cốt lõi tối giản nhất để thử nghiệm nhanh ngoài thị trường với rủi ro và chi phí thấp nhất.
+              </li>
+            </ul>
+          </div>
+
+          <aside class="aside-box">
+            <div class="kpi-label">KẾT NỐI KỸ THUẬT &amp; KINH DOANH</div>
+            <h3 class="card-heading">Sức mạnh của làm việc nhóm đa ngành</h3>
+            <p class="prose" style="font-size: 0.95rem;">
+              Trong thời đại 4.0, không ai có thể tự làm tất cả. Muốn ý tưởng sống được và tạo giá trị cho xã hội, người làm kỹ thuật cần kết hợp ba mảnh ghép:
+            </p>
+            <ul class="dossier-list">
+              <li><strong>Dân CNTT:</strong> Tư duy logic, kiến trúc hệ thống và khả năng hiện thực hóa sản phẩm.</li>
+              <li><strong>Dân Kinh tế:</strong> Nhạy bén thị trường, đánh giá mô hình doanh thu (Lean Canvas) và chiến lược thương mại hóa.</li>
+              <li><strong>Dân Thiết kế:</strong> Thẩm mỹ, trải nghiệm người dùng (UX/UI) và cách kể câu chuyện sản phẩm.</li>
+            </ul>
+          </aside>
+        </div>
+
+        <!-- Interactive 4 Skill Groups Explorer -->
+        <div class="figure-card">
+          <div class="kpi-label">Khung năng lực thực chiến · 4 Nhóm kỹ năng trọng tâm</div>
+          <h3 class="card-heading">Chọn từng nhóm kỹ năng để xem phương pháp và công cụ áp dụng</h3>
+          <div class="btn-row" role="tablist" aria-label="4 nhóm kỹ năng trọng tâm SKTS">
+            <button type="button" class="step-btn is-active" onclick="selectSkillGroup(0, this)" role="tab" aria-selected="true"><span class="btn-code">01</span> Khám phá vấn đề</button>
+            <button type="button" class="step-btn" onclick="selectSkillGroup(1, this)" role="tab" aria-selected="false"><span class="btn-code">02</span> Công nghệ &amp; Tạo mẫu</button>
+            <button type="button" class="step-btn" onclick="selectSkillGroup(2, this)" role="tab" aria-selected="false"><span class="btn-code">03</span> Đánh giá thị trường</button>
+            <button type="button" class="step-btn" onclick="selectSkillGroup(3, this)" role="tab" aria-selected="false"><span class="btn-code">04</span> Mềm &amp; Thương mại hóa</button>
+          </div>
+          <div id="skill-group-detail" class="aside-box" style="margin: 0;">
+            <div class="kpi-label" id="sg-label">NHÓM 1 · TƯ DUY &amp; KHÁM PHÁ VẤN ĐỀ</div>
+            <h4 class="card-heading" id="sg-title">Design Thinking (5 bước) &amp; Tư duy phản biện</h4>
+            <p class="prose" id="sg-body" style="margin-bottom: var(--space-sm);">
+              Áp dụng quy trình Tư duy Thiết kế gồm 5 bước: <strong>Thấu cảm → Xác định vấn đề → Lên ý tưởng → Tạo mẫu → Thử nghiệm</strong>. Kết hợp tư duy phản biện để truy tìm nguyên nhân gốc rễ (Root Cause) thay vì chỉ xử lý phần ngọn.
+            </p>
+            <div class="tag-row" id="sg-tags">
+              <span class="tag-amber">Design Thinking 5 bước</span>
+              <span class="tag-slate">Root Cause Analysis</span>
+              <span class="tag-green">Giải quyết Pain Point</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-footer">
+          <span class="muted-note">Trọng tâm: Kết hợp Design Thinking, MVP, Lean Canvas, Sở hữu trí tuệ và Pitching.</span>
+          <a href="#muc-luc" class="back-to-nav">↑ Về thanh điều hướng</a>
+        </div>
+      </section>
+
+      <!-- SECTION 09 -->
+      <section id="muc-09" class="course-section">
+        <div class="dossier-bar">
+          <div class="dossier-bar-left">
+            <span class="dossier-pill">Mục 09</span>
+            <span class="dossier-meta">SLIDE 8 (AN TOÀN THÔNG TIN &amp; ĐẠO ĐỨC SỐ) · LUẬT VIỆT NAM 2026</span>
+          </div>
+          <span class="index-num">09 / 09</span>
+        </div>
+
+        <h2 class="section-title">An toàn Thông tin, Đạo đức Số &amp; Hành lang Pháp lý Việt Nam</h2>
+        <p class="section-deck">
+          Gắn liền quy trình CDIO (Conceive – Design – Implement – Operate) với trách nhiệm bảo mật, nhận diện rủi ro Deepfake và tuân thủ pháp luật Việt Nam.
+        </p>
+
+        <div class="two-col-grid" style="margin-bottom: var(--space-lg);">
+          <!-- C-I-A Triad Card -->
+          <div class="figure-card">
+            <div class="kpi-label">NGUYÊN LÝ CỐT LÕI &amp; TIÊU CHUẨN</div>
+            <h3 class="card-heading">Tam giác Bảo mật C – I – A &amp; Tiêu chuẩn ISO / TCVN</h3>
+            <div class="svg-panel" style="margin: var(--space-sm) 0 var(--space-md) 0; background: var(--background);">
+              <svg viewBox="0 0 360 155" width="100%" height="auto" role="img" aria-label="Mô hình tam giác bảo mật C I A gồm Confidentiality, Integrity và Availability">
+                <polygon points="180,18 52,132 308,132" fill="var(--secondary-bg)" stroke="var(--secondary)" stroke-width="2"/>
+                <circle cx="180" cy="24" r="18" fill="var(--primary-container)" stroke="var(--outline)" stroke-width="1.5"/>
+                <text x="180" y="29" text-anchor="middle" font-family="var(--font-label)" font-size="14" font-weight="700" fill="var(--on-primary-container)">C</text>
+                <text x="180" y="57" text-anchor="middle" font-family="var(--font-body)" font-size="11.5" font-weight="600" fill="var(--on-surface)">Confidentiality (Bảo mật)</text>
+
+                <circle cx="52" cy="130" r="18" fill="var(--secondary)" stroke="var(--outline)" stroke-width="1.5"/>
+                <text x="52" y="135" text-anchor="middle" font-family="var(--font-label)" font-size="14" font-weight="700" fill="var(--on-primary)">I</text>
+                <text x="80" y="148" font-family="var(--font-body)" font-size="11.5" font-weight="600" fill="var(--on-surface)">Integrity (Toàn vẹn)</text>
+
+                <circle cx="308" cy="130" r="18" fill="var(--positive)" stroke="var(--outline)" stroke-width="1.5"/>
+                <text x="308" y="135" text-anchor="middle" font-family="var(--font-label)" font-size="14" font-weight="700" fill="var(--on-primary)">A</text>
+                <text x="275" y="148" text-anchor="end" font-family="var(--font-body)" font-size="11.5" font-weight="600" fill="var(--on-surface)">Availability (Sẵn sàng)</text>
+              </svg>
+            </div>
+            <p class="prose" style="font-size: 0.95rem; margin-bottom: 0;">
+              Hệ thống thông tin an toàn phải bảo đảm dữ liệu không bị rò rỉ trái phép (<strong>C</strong>), không bị sửa đổi sai lệch (<strong>I</strong>) và luôn truy cập được khi cần (<strong>A</strong>), tuân thủ các bộ tiêu chuẩn quốc tế <strong>ISO</strong> và tiêu chuẩn quốc gia <strong>TCVN</strong> về an toàn thông tin.
+            </p>
+          </div>
+
+          <!-- Digital Ethics & Deepfake -->
+          <div class="figure-card">
+            <div class="kpi-label">TRÁCH NHIỆM CÔNG DÂN SỐ</div>
+            <h3 class="card-heading">Đạo đức số &amp; Thách thức Deepfake</h3>
+            <ul class="dossier-list">
+              <li>
+                <strong>Đạo đức số:</strong> Hình thành ý thức tôn trọng quyền riêng tư, bản quyền, tính trung thực khi sử dụng dữ liệu và công nghệ AI trong học tập, nghiên cứu cũng như giao tiếp trên không gian mạng.
+              </li>
+              <li>
+                <strong>Vấn đề Deepfake:</strong> Công nghệ AI tổng hợp hình ảnh, giọng nói giả mạo giống thật gây nguy cơ lừa đảo tài chính, xâm phạm danh dự và thao túng thông tin — đòi hỏi người học kỹ năng kiểm chứng và cảnh giác số.
+              </li>
+              <li>
+                <strong>Khung tiếp cận CDIO:</strong> Ý thức an toàn và đạo đức số phải được tích hợp xuyên suốt cả 4 pha <em>Conceive (Hình thành ý tưởng) – Design (Thiết kế) – Implement (Triển khai) – Operate (Vận hành)</em>.
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Vietnam Legal Framework -->
+        <h3 class="card-heading" style="margin-bottom: var(--space-md);">Hành lang pháp lý số tại Việt Nam</h3>
+        <div class="card-grid">
+          <article class="figure-card" style="border-top: 3px solid var(--secondary);">
+            <div class="kpi-label">SỐ HIỆU: 24/2018/QH14</div>
+            <h4 class="card-heading">Luật An ninh mạng</h4>
+            <p class="tag-slate" style="margin-bottom: var(--space-sm);">Hiệu lực: 01-01-2019</p>
+            <p class="prose" style="font-size: 0.9375rem; margin-bottom: 0;">
+              Quy định về hoạt động bảo vệ an ninh quốc gia và bảo đảm trật tự, an toàn xã hội trên không gian mạng; trách nhiệm của cơ quan, tổ chức, cá nhân có liên quan để hoạt động trên mạng không gây phương hại quyền và lợi ích hợp pháp.
+            </p>
+          </article>
+
+          <article class="figure-card" style="border-top: 3px solid var(--primary-container);">
+            <div class="kpi-label">SỐ HIỆU: 134/2025/QH15</div>
+            <h4 class="card-heading">Luật Trí tuệ nhân tạo</h4>
+            <p class="tag-amber" style="margin-bottom: var(--space-sm);">Hiệu lực: 01-03-2026</p>
+            <p class="prose" style="font-size: 0.9375rem; margin-bottom: 0;">
+              Quy định về nghiên cứu, phát triển, cung cấp, triển khai và sử dụng hệ thống AI; quyền, nghĩa vụ của tổ chức, cá nhân và quản lý nhà nước tại Việt Nam (hoạt động AI chỉ phục vụ quốc phòng, an ninh, cơ yếu nằm ngoài phạm vi điều chỉnh luật này).
+            </p>
+          </article>
+
+          <article class="figure-card" style="border-top: 3px solid var(--positive);">
+            <div class="kpi-label">QUY ĐỊNH DỮ LIỆU SỐ</div>
+            <h4 class="card-heading">Luật Bảo vệ dữ liệu cá nhân</h4>
+            <p class="tag-green" style="margin-bottom: var(--space-sm);">Bảo vệ quyền riêng tư</p>
+            <p class="prose" style="font-size: 0.9375rem; margin-bottom: 0;">
+              Thiết lập nghĩa vụ minh bạch và bảo vệ dữ liệu cá nhân khi thu thập, lưu trữ trên Cloud và khai thác bằng AI/Big Data, bảo đảm quyền kiểm soát thông tin của công dân trong kỷ nguyên số.
+            </p>
+          </article>
+        </div>
+
+        <div class="section-footer">
+          <span class="muted-note">Trọng tâm: Tam giác C-I-A, phòng chống rủi ro Deepfake và các mốc hiệu lực luật số Việt Nam.</span>
+          <a href="#muc-luc" class="back-to-nav">↑ Về thanh điều hướng</a>
+        </div>
+      </section>
+
+      <!-- SECTION 10: INTERACTIVE SELF-CHECK QUIZ -->
+      <section id="muc-10" class="course-section">
+        <div class="dossier-bar">
+          <div class="dossier-bar-left">
+            <span class="dossier-pill">Mục 10</span>
+            <span class="dossier-meta">KIỂM TRA KIẾN THỨC NHANH · TỔNG ÔN HỌC PHẦN</span>
+          </div>
+          <span class="index-num" id="quiz-score-badge">ĐIỂM: 0 / 5</span>
+        </div>
+
+        <h2 class="section-title">Ôn tập nhanh 5 câu hỏi trọng tâm</h2>
+        <p class="section-deck">
+          Kiểm tra khả năng ghi nhớ các khái niệm cốt lõi từ tất cả chuyên đề vừa học. Chọn phương án đúng để xem giải thích ngay lập tức.
+        </p>
+
+        <div id="quiz-container"></div>
+
+        <div style="display: flex; flex-wrap: wrap; gap: var(--space-sm); align-items: center; margin-top: var(--space-md);">
+          <button type="button" class="secondary-btn" onclick="resetQuiz(this)">Làm lại bài kiểm tra</button>
+          <span class="muted-note" id="quiz-status-msg">Chọn đáp án cho từng câu hỏi ở trên.</span>
+        </div>
+
+        <div class="section-footer">
+          <span class="muted-note">Hoàn thành tổng ôn toàn bộ nội dung học phần CNTT 4.0.</span>
+          <a href="#muc-luc" class="back-to-nav">↑ Về đầu trang</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- SOURCES FOOTER -->
+    <footer class="page-footer">
+      <details class="dossier-details">
+        <summary>
+          <span>Danh mục nguồn học liệu tổng hợp trong trang</span>
+          <span class="dossier-meta">NHẤN ĐỂ MỞ / THU GỌN</span>
+        </summary>
+        <ul class="dossier-list" style="font-size: 0.875rem;">
+          <li><strong>Âm thanh chuyên đề:</strong> “Con_người_cầm_lái_Cloud_và_AI.m4a” (Bản chất Cloud, bình đẳng công nghệ, AI mô phỏng nhận thức và cập nhật luật 2026).</li>
+          <li><strong>Video tham khảo:</strong> “Cách mạng 4.0 là gì? Giải thích siêu dễ hiểu trong 7 phút!!” — Kênh KIẾN THỨC THÚ VỊ Official (Mốc Đức 2013, so sánh 3.0 và 4.0, IoT tạo Big Data).</li>
+          <li><strong>Bộ bài giảng Slides 1–8:</strong> Slide 1 (Tổng quan CMCN 4.0, CNTT 4.0, CĐS), Slide 2 (Computer, Hardware), Slide 3 (Operating System), Slide 4 (Software, Cloud, Platform), Slide 5 (Network, Internet, IoT), Slide 6 (Computational thinking, IT Automation), Slide 7 (AI, Data in studying &amp; working), Slide 8 (An toàn thông tin &amp; Đạo đức số).</li>
+          <li><strong>Ghi chú &amp; Khung SKTS:</strong> Ghi chú KTS | CNTT 4.0, Bản đồ tư duy NotebookLM và tài liệu hướng dẫn Hỗ trợ SKTS Sinh viên CNTT 4.0 (Design Thinking, Open Innovation, MVP, Agile/Scrum, Lean Canvas, Sở hữu trí tuệ, Pitching).</li>
+        </ul>
+      </details>
+      <p style="margin-top: var(--space-md);">
+        Tổng hợp biên soạn phục vụ học tập học phần Công nghệ thông tin 4.0 — Thiết kế tối ưu hiển thị trên máy tính và điện thoại.
+      </p>
+    </footer>
+
+  </div>
+
+  <script>
+    // 1. Mobile Nav Grid Toggle & Active Chip Highlight
+    function toggleMobileNav(btn) {
+      const list = document.getElementById('nav-links-list');
+      if (!list || !btn) return;
+      const expanded = list.classList.toggle('is-expanded');
+      btn.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+      const labelSpan = btn.querySelector('span');
+      if (labelSpan) {
+        labelSpan.textContent = expanded ? 'Thu gọn ngang' : 'Xem dạng lưới';
+      }
+    }
+
+    function setActiveNav(clickedEl) {
+      const chips = document.querySelectorAll('.nav-chip');
+      chips.forEach(function (chip) {
+        chip.classList.remove('is-active');
+      });
+      if (clickedEl) clickedEl.classList.add('is-active');
+    }
+
+    // 2. Interactive 4 Industrial Revolutions Explorer
+    const revolutions = [
+      {
+        tag: `CUỘC CÁCH MẠNG THỨ NHẤT`,
+        title: `CMCN 1.0 — Cơ khí hóa sản xuất`,
+        desc: `Chuyển dịch từ lao động thủ công sang sản xuất cơ khí hóa quy mô công xưởng, thay đổi hoàn toàn cách tổ chức sản xuất của nhân loại.`,
+        tech: `Động cơ hơi nước & máy móc cơ khí.`,
+        note: `Thay thế sức lao động cơ bắp bằng năng lượng nhiệt – cơ học.`
+      },
+      {
+        tag: `CUỘC CÁCH MẠNG THỨ HAI`,
+        title: `CMCN 2.0 — Sản xuất hàng loạt`,
+        desc: `Hình thành dây chuyền sản xuất chuyên môn hóa với năng suất vượt trội. Tại Việt Nam, giai đoạn thực dân Pháp xâm lược cũng đánh dấu sự du nhập ban đầu của kỹ thuật công nghiệp 2.0.`,
+        tech: `Điện năng & dây chuyền lắp ráp hàng loạt.`,
+        note: `Mở ra kỷ nguyên sản xuất quy mô lớn và chuẩn hóa quy trình.`
+      },
+      {
+        tag: `CUỘC CÁCH MẠNG THỨ BA`,
+        title: `CMCN 3.0 — Tự động hóa điện tử`,
+        desc: `Cuộc sống xuất hiện vô vàn thiết bị điện tử kỹ thuật số hoạt động tự động hóa theo lập trình sẵn, nhưng phần lớn thiết bị vẫn vận hành rời rạc.`,
+        tech: `Máy tính cá nhân, bán dẫn & công nghệ điện tử.`,
+        note: `Tự động hóa tác vụ tính toán và điều khiển sản xuất.`
+      },
+      {
+        tag: `CUỘC CÁCH MẠNG THỨ TƯ (2010–NAY · ĐỨC 2013)`,
+        title: `CMCN 4.0 — Kết nối số & Trí tuệ nhân tạo`,
+        desc: `Kết nối giữa thế giới vật lý và thế giới số qua Internet. Mọi thiết bị trở thành nút IoT sinh ra Big Data để máy móc tự học và tự hỗ trợ ra quyết định.`,
+        tech: `AI, IoT, Big Data, Cloud Computing, Blockchain & Robot thông minh.`,
+        note: `Dữ liệu trở thành tài nguyên chiến lược của Kinh tế số và Xã hội số.`
+      }
+    ];
+
+    function selectRevolution(idx, btn) {
+      const data = revolutions[idx];
+      if (!data) return;
+      const parent = btn ? btn.parentElement : null;
+      if (parent) {
+        parent.querySelectorAll('.step-btn').forEach(function (b) {
+          b.classList.remove('is-active');
+          b.setAttribute('aria-selected', 'false');
+        });
+      }
+      if (btn) {
+        btn.classList.add('is-active');
+        btn.setAttribute('aria-selected', 'true');
+      }
+      const tagEl = document.getElementById('rev-tag');
+      const titleEl = document.getElementById('rev-title');
+      const descEl = document.getElementById('rev-desc');
+      const techEl = document.getElementById('rev-tech');
+      const noteEl = document.getElementById('rev-note');
+      if (tagEl) tagEl.textContent = data.tag;
+      if (titleEl) titleEl.textContent = data.title;
+      if (descEl) descEl.textContent = data.desc;
+      if (techEl) techEl.textContent = data.tech;
+      if (noteEl) noteEl.textContent = data.note;
+    }
+
+    // 3. Interactive Cloud Service Layers
+    const cloudModels = {
+      saas: {
+        label: `ĐANG XEM: SAAS — SOFTWARE AS A SERVICE`,
+        desc: `Người dùng cuối sử dụng trực tiếp ứng dụng hoàn chỉnh qua Internet mà không cần cài đặt hạ tầng, hệ điều hành hay bảo trì mã nguồn.`,
+        rows: [
+          { name: `Ứng dụng & Dữ liệu`, owner: `vendor`, text: `Nhà cung cấp vận hành · Người dùng sử dụng` },
+          { name: `Hệ điều hành (OS)`, owner: `vendor`, text: `Nhà cung cấp Cloud quản lý` },
+          { name: `Máy chủ, Lưu trữ, Mạng`, owner: `vendor`, text: `Nhà cung cấp Cloud quản lý` }
+        ],
+        ex: `<strong>Ví dụ điển hình:</strong> Các dịch vụ lưu trữ, văn phòng trực tuyến và công cụ cộng tác trên đám mây.`
+      },
+      paas: {
+        label: `ĐANG XEM: PAAS — PLATFORM AS A SERVICE`,
+        desc: `Môi trường phát triển và triển khai toàn diện nằm trên lớp IaaS. Developer kiểm soát hoàn toàn ứng dụng và cấu hình, còn nhà cung cấp Cloud lo hạ tầng.`,
+        rows: [
+          { name: `Ứng dụng & Cấu hình`, owner: `user`, text: `Developer kiểm soát hoàn toàn` },
+          { name: `Hệ điều hành (OS) & Runtime`, owner: `vendor`, text: `Thành phần nền do Cloud cung cấp sẵn` },
+          { name: `Máy chủ vật lý, Lưu trữ, Mạng`, owner: `vendor`, text: `Nhà cung cấp Cloud quản lý` }
+        ],
+        ex: `<strong>Thành phần cốt lõi:</strong> Hệ điều hành (OS), môi trường thực thi giúp lập trình viên triển khai app nhanh chóng.`
+      },
+      iaas: {
+        label: `ĐANG XEM: IAAS — INFRASTRUCTURE AS A SERVICE`,
+        desc: `Thuê hạ tầng tính toán thô như máy chủ ảo, bộ nhớ và mạng. Người dùng chủ động tự cài đặt hệ điều hành và thiết lập bảo mật bên trên.`,
+        rows: [
+          { name: `Ứng dụng & Bảo mật lớp trên`, owner: `user`, text: `Người dùng tự cài đặt & cấu hình` },
+          { name: `Hệ điều hành (OS)`, owner: `user`, text: `Người dùng tự cài đặt & quản trị` },
+          { name: `Máy chủ ảo, Bộ nhớ, Mạng`, owner: `vendor`, text: `Thuê từ nhà cung cấp Cloud` }
+        ],
+        ex: `<strong>Ví dụ điển hình:</strong> Amazon EC2 — cung cấp máy chủ ảo linh hoạt theo nhu cầu.`
+      }
+    };
+
+    function selectCloudLayer(key, btn) {
+      const model = cloudModels[key];
+      if (!model) return;
+      const parent = btn ? btn.parentElement : null;
+      if (parent) {
+        parent.querySelectorAll('.cloud-layer-btn').forEach(function (b) {
+          b.classList.remove('is-active');
+          b.setAttribute('aria-selected', 'false');
+        });
+      }
+      if (btn) {
+        btn.classList.add('is-active');
+        btn.setAttribute('aria-selected', 'true');
+      }
+      const labelEl = document.getElementById('cloud-layer-label');
+      const descEl = document.getElementById('cloud-layer-desc');
+      const rowsEl = document.getElementById('cloud-responsibility-rows');
+      const exEl = document.getElementById('cloud-layer-ex');
+      if (labelEl) labelEl.textContent = model.label;
+      if (descEl) descEl.textContent = model.desc;
+      if (rowsEl) {
+        rowsEl.innerHTML = model.rows.map(function (r) {
+          const badgeClass = r.owner === 'user' ? 'meter-badge-user' : 'meter-badge-vendor';
+          return `<div class="meter-row"><span class="meter-label">${r.name}</span><span class="${badgeClass}">${r.text}</span></div>`;
+        }).join('');
+      }
+      if (exEl) exEl.innerHTML = model.ex;
+    }
+
+    // 4. Interactive Prompt Engineering Builder
+    function updatePromptPreview() {
+      const roleSel = document.getElementById('sel-role');
+      const taskSel = document.getElementById('sel-task');
+      const fmtSel = document.getElementById('sel-format');
+      const box = document.getElementById('prompt-preview-box');
+      if (!roleSel || !taskSel || !fmtSel || !box) return;
+
+      box.innerHTML = `<span class="prompt-token tok-role">${roleSel.value}</span>, hãy <span class="prompt-token tok-task">${taskSel.value}</span> <span class="prompt-token tok-ctx">phục vụ sinh viên ôn tập học phần</span>. <span class="prompt-token tok-fmt">${fmtSel.value}</span>`;
+    }
+
+    // 5. Interactive SKTS 4 Skill Groups
+    const skillGroups = [
+      {
+        label: `NHÓM 1 · TƯ DUY & KHÁM PHÁ VẤN ĐỀ`,
+        title: `Design Thinking (5 bước) & Tư duy phản biện`,
+        body: `Áp dụng quy trình Tư duy Thiết kế gồm 5 bước: <strong>Thấu cảm → Xác định vấn đề → Lên ý tưởng → Tạo mẫu → Thử nghiệm</strong>. Kết hợp tư duy phản biện để truy tìm nguyên nhân gốc rễ (Root Cause) thay vì chỉ xử lý phần ngọn.`,
+        tags: [`Design Thinking 5 bước`, `Root Cause Analysis`, `Giải quyết Pain Point`]
+      },
+      {
+        label: `NHÓM 2 · CÔNG NGHỆ & TẠO MẪU (PROTOTYPING)`,
+        title: `AI tạo sinh, Low-code/No-code & Agile/Scrum`,
+        body: `Tận dụng các công cụ AI tạo sinh và nền tảng tạo mẫu nhanh (Copilot, Figma, Low-code/No-code) kết hợp quy trình phát triển phần mềm linh hoạt <strong>Agile/Scrum (theo từng Sprint)</strong> để sớm có bản MVP chạy thử.`,
+        tags: [`Copilot & Figma`, `Low-code / No-code`, `Agile / Scrum Sprint`]
+      },
+      {
+        label: `NHÓM 3 · NGHIÊN CỨU & ĐÁNH GIÁ THỊ TRƯỜNG`,
+        title: `Product-Market Fit (PMF) & Mô hình Lean Canvas`,
+        body: `Phân tích dữ liệu người dùng thực tế để kiểm chứng mức độ phù hợp sản phẩm – thị trường (PMF), đồng thời hệ thống hóa giả thuyết kinh doanh, chi phí và dòng doanh thu trên khung <strong>Lean Canvas</strong> tinh gọn.`,
+        tags: [`Phân tích dữ liệu`, `Product-Market Fit`, `Lean Canvas`]
+      },
+      {
+        label: `NHÓM 4 · KỸ NĂNG MỀM & THƯƠNG MẠI HÓA`,
+        title: `Bảo vệ Sở hữu trí tuệ, Pitching & Nhóm đa ngành`,
+        body: `Trang bị kỹ năng bảo vệ chất xám (<strong>Sở hữu trí tuệ</strong>), nghệ thuật thuyết trình gọi vốn và truyền đạt giá trị sản phẩm đến nhà đầu tư/khách hàng (<strong>Pitching</strong>), phối hợp ăn ý giữa dân CNTT, Kinh tế và Thiết kế.`,
+        tags: [`Sở hữu trí tuệ`, `Kỹ năng Pitching`, `Làm việc nhóm đa ngành`]
+      }
+    ];
+
+    function selectSkillGroup(idx, btn) {
+      const sg = skillGroups[idx];
+      if (!sg) return;
+      const parent = btn ? btn.parentElement : null;
+      if (parent) {
+        parent.querySelectorAll('.step-btn').forEach(function (b) {
+          b.classList.remove('is-active');
+          b.setAttribute('aria-selected', 'false');
+        });
+      }
+      if (btn) {
+        btn.classList.add('is-active');
+        btn.setAttribute('aria-selected', 'true');
+      }
+      const labelEl = document.getElementById('sg-label');
+      const titleEl = document.getElementById('sg-title');
+      const bodyEl = document.getElementById('sg-body');
+      const tagsEl = document.getElementById('sg-tags');
+      if (labelEl) labelEl.textContent = sg.label;
+      if (titleEl) titleEl.textContent = sg.title;
+      if (bodyEl) bodyEl.innerHTML = sg.body;
+      if (tagsEl) {
+        tagsEl.innerHTML = sg.tags.map(function (t, i) {
+          const cls = i === 0 ? 'tag-amber' : (i === 1 ? 'tag-slate' : 'tag-green');
+          return `<span class="${cls}">${t}</span>`;
+        }).join('');
+      }
+    }
+
+    // 6. Self-Check Quiz
+    const quizData = [
+      {
+        q: `Câu 1: Điểm khác biệt cốt lõi nhất giữa CMCN 4.0 so với CMCN 3.0 là gì?`,
+        options: [
+          `Sự xuất hiện lần đầu tiên của máy hơi nước trong công xưởng`,
+          `Các thiết bị điện tử kết nối Internet (IoT) tạo Big Data để máy móc tự học và hỗ trợ ra quyết định`,
+          `Chỉ thay thế hoàn toàn máy tính để bàn bằng điện thoại cảm ứng`
+        ],
+        answer: 1,
+        explain: `Chính xác! Ở 3.0 thiết bị điện tử hoạt động rời rạc; sang 4.0 chúng kết nối Internet (IoT), sản sinh Big Data và kết hợp AI để tự động hóa thông minh.`
+      },
+      {
+        q: `Câu 2: Trong các mô hình điện toán đám mây, mô hình nào cho phép developer kiểm soát toàn bộ ứng dụng và cấu hình trên nền hạ tầng do nhà cung cấp quản lý?`,
+        options: [
+          `IaaS (Infrastructure as a Service)`,
+          `PaaS (Platform as a Service)`,
+          `SaaS (Software as a Service)`
+        ],
+        answer: 1,
+        explain: `Đúng! PaaS nằm trên lớp IaaS, cung cấp sẵn môi trường phát triển và OS để lập trình viên tập trung quản lý ứng dụng và cấu hình.`
+      },
+      {
+        q: `Câu 3: Theo Slide 7 về vai trò của Dữ liệu và AI, yếu tố nào đóng vai trò là “vô-lăng định hướng tương lai”?`,
+        options: [
+          `Tốc độ phần cứng máy chủ`,
+          `Chính sách lấy con người làm trung tâm`,
+          `Số lượng thiết bị cảm biến IoT`
+        ],
+        answer: 1,
+        explain: `Chuẩn xác! “Dữ liệu là nhiên liệu, Trí tuệ nhân tạo là động cơ, nhưng chính sách lấy con người làm trung tâm mới là vô-lăng định hướng tương lai.”`
+      },
+      {
+        q: `Câu 4: Trong bộ kỹ năng Sáng kiến Trí tuệ Sáng tạo (SKTS), khái niệm MVP (Minimum Viable Product) dùng để chỉ điều gì?`,
+        options: [
+          `Phiên bản sản phẩm hoàn thiện 100% trước khi gặp bất kỳ người dùng nào`,
+          `Bản sản phẩm cốt lõi tối giản nhất để thử nghiệm nhanh ngoài thị trường với rủi ro thấp`,
+          `Bản kế hoạch đăng ký nhãn hiệu độc quyền`
+        ],
+        answer: 1,
+        explain: `Chính xác! MVP giúp đội nhóm kiểm chứng giả thuyết thị trường nhanh và ít rủi ro nhất trước khi đầu tư mở rộng.`
+      },
+      {
+        q: `Câu 5: Luật Trí tuệ nhân tạo Việt Nam số 134/2025/QH15 bắt đầu có hiệu lực từ ngày nào?`,
+        options: [
+          `Ngày 01-01-2019`,
+          `Ngày 01-03-2026`,
+          `Ngày 01-01-2025`
+        ],
+        answer: 1,
+        explain: `Đúng! Luật Trí tuệ nhân tạo (134/2025/QH15) có hiệu lực từ ngày 01-03-2026; còn ngày 01-01-2019 là ngày hiệu lực của Luật An ninh mạng (24/2018/QH14).`
+      }
+    ];
+
+    let quizScore = 0;
+    const answeredSet = new Set();
+
+    function renderQuiz() {
+      const container = document.getElementById('quiz-container');
+      if (!container) return;
+      container.innerHTML = quizData.map(function (item, qIdx) {
+        const optsHtml = item.options.map(function (opt, oIdx) {
+          return `<button type="button" class="quiz-option-btn" id="q-${qIdx}-opt-${oIdx}" onclick="answerQuiz(${qIdx}, ${oIdx})"><span class="index-num">${String.fromCharCode(65 + oIdx)}</span><span>${opt}</span></button>`;
+        }).join('');
+        return `
+          <div class="quiz-card" id="quiz-card-${qIdx}">
+            <div style="font-weight: 600; color: var(--on-surface);">${item.q}</div>
+            <div class="quiz-options">${optsHtml}</div>
+            <div class="quiz-feedback" id="quiz-fb-${qIdx}"></div>
+          </div>
+        `;
+      }).join('');
+      updateScoreBadge();
+    }
+
+    function answerQuiz(qIdx, oIdx) {
+      if (answeredSet.has(qIdx)) return;
+      const item = quizData[qIdx];
+      if (!item) return;
+      answeredSet.add(qIdx);
+
+      const isCorrect = oIdx === item.answer;
+      if (isCorrect) quizScore += 1;
+
+      item.options.forEach(function (_, idx) {
+        const btn = document.getElementById(`q-${qIdx}-opt-${idx}`);
+        if (!btn) return;
+        btn.disabled = true;
+        if (idx === item.answer) btn.classList.add('is-correct');
+        else if (idx === oIdx && !isCorrect) btn.classList.add('is-wrong');
+      });
+
+      const fb = document.getElementById(`quiz-fb-${qIdx}`);
+      if (fb) {
+        fb.textContent = isCorrect ? item.explain : `Chưa chính xác. ${item.explain}`;
+        fb.className = `quiz-feedback show ${isCorrect ? 'ok' : 'bad'}`;
+      }
+      updateScoreBadge();
+    }
+
+    function updateScoreBadge() {
+      const badge = document.getElementById('quiz-score-badge');
+      const status = document.getElementById('quiz-status-msg');
+      if (badge) badge.textContent = `ĐIỂM: ${quizScore} / ${quizData.length}`;
+      if (status) {
+        if (answeredSet.size === 0) status.textContent = `Chọn đáp án cho từng câu hỏi ở trên.`;
+        else if (answeredSet.size < quizData.length) status.textContent = `Đã trả lời ${answeredSet.size}/${quizData.length} câu.`;
+        else status.textContent = `Hoàn thành! Bạn đạt ${quizScore}/${quizData.length} câu đúng.`;
+      }
+    }
+
+    function resetQuiz(btn) {
+      if (btn && btn.dataset.armed !== 'true' && answeredSet.size > 0) {
+        btn.dataset.armed = 'true';
+        btn.textContent = `Nhấn lần nữa để xác nhận làm lại`;
+        return;
+      }
+      if (btn) {
+        btn.dataset.armed = 'false';
+        btn.textContent = `Làm lại bài kiểm tra`;
+      }
+      quizScore = 0;
+      answeredSet.clear();
+      renderQuiz();
+    }
+
+    // Initialize on load
+    document.addEventListener('DOMContentLoaded', function () {
+      renderQuiz();
+      if (typeof lucide !== 'undefined' && lucide && typeof lucide.createIcons === 'function') {
+        lucide.createIcons();
+      }
+    });
+  </script>
+</body>
+</html>
