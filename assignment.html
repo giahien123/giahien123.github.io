@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Assignment CNTT 4.0 | Gia Hiền</title>
+  <meta name="description" content="Báo cáo quá trình thực hiện Assignment môn CNTT 4.0 - FPT Polytechnic">
+  <style>
+    :root {
+      --bg: #fafaf7;
+      --card: #ffffff;
+      --text: #1f2430;
+      --muted: #6b7280;
+      --accent: #2f6fed;
+      --border: #e5e7eb;
+      --soft: #eef3ff;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #14161c;
+        --card: #1c1f27;
+        --text: #eceef3;
+        --muted: #9aa1ae;
+        --accent: #6a9bff;
+        --border: #2a2e39;
+        --soft: #1d2638;
+      }
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .container { max-width: 900px; margin: 0 auto; padding: 0 20px; }
+
+    nav {
+      position: sticky; top: 0; z-index: 10;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+    }
+    nav .container {
+      display: flex; justify-content: space-between; align-items: center;
+      height: 56px; gap: 12px;
+    }
+    nav .logo { font-weight: 700; color: var(--text); }
+    nav ul { display: flex; gap: 18px; list-style: none; }
+    nav ul a { color: var(--muted); font-size: 0.92rem; }
+    nav ul a:hover { color: var(--accent); text-decoration: none; }
+
+    header.hero { padding: 56px 0 30px; }
+    .badge {
+      display: inline-block; background: var(--soft); color: var(--accent);
+      padding: 4px 12px; border-radius: 999px; font-size: 0.85rem; font-weight: 600;
+      margin-bottom: 14px;
+    }
+    .hero h1 { font-size: clamp(1.8rem, 5vw, 2.6rem); margin-bottom: 10px; }
+    .hero p { color: var(--muted); max-width: 640px; }
+    .meta {
+      margin-top: 18px; display: flex; flex-wrap: wrap; gap: 8px 24px;
+      font-size: 0.95rem;
+    }
+    .meta span b { color: var(--muted); font-weight: 500; }
+
+    section { padding: 36px 0; }
+    section h2 {
+      font-size: 1.5rem; margin-bottom: 6px;
+    }
+    section .sub { color: var(--muted); margin-bottom: 20px; }
+    h3 { font-size: 1.1rem; margin: 26px 0 8px; }
+
+    .card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 18px 20px; margin-bottom: 14px;
+    }
+    .card p { margin-bottom: 8px; }
+    .card p:last-child { margin-bottom: 0; }
+    .tag {
+      display: inline-block; font-size: 0.78rem; font-weight: 700;
+      background: var(--accent); color: #fff; padding: 2px 9px;
+      border-radius: 6px; margin-right: 8px; vertical-align: middle;
+    }
+    .tag.ext { background: #8b5cf6; }
+
+    /* Khung giữ chỗ cho ảnh chụp màn hình */
+    .placeholder {
+      border: 2px dashed var(--border); border-radius: 10px;
+      padding: 28px 16px; text-align: center; color: var(--muted);
+      font-size: 0.92rem; margin: 10px 0;
+    }
+    img.shot {
+      display: block; max-width: 100%; border-radius: 10px;
+      border: 1px solid var(--border); margin: 10px 0;
+    }
+
+    .todo { color: var(--muted); font-style: italic; }
+
+    table {
+      width: 100%; border-collapse: collapse; background: var(--card);
+      border: 1px solid var(--border); border-radius: 10px; overflow: hidden;
+      font-size: 0.95rem;
+    }
+    th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); vertical-align: top; }
+    th { background: var(--soft); font-weight: 600; }
+    tr:last-child td { border-bottom: none; }
+    .table-wrap { overflow-x: auto; }
+
+    ul.list { margin: 6px 0 0 22px; }
+    ul.list li { margin-bottom: 4px; }
+
+    .links a {
+      display: inline-block; margin: 4px 10px 4px 0; padding: 8px 16px;
+      border: 1px solid var(--accent); border-radius: 8px; font-weight: 600;
+    }
+
+    footer {
+      text-align: center; padding: 30px 0; color: var(--muted);
+      font-size: 0.9rem; border-top: 1px solid var(--border); margin-top: 30px;
+    }
+
+    @media (max-width: 600px) {
+      nav ul { gap: 10px; }
+      nav ul a { font-size: 0.82rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="container">
+      <a class="logo" href="index.html">← Trang chủ</a>
+      <ul>
+        <li><a href="#phan1">Phần 1</a></li>
+        <li><a href="#phan2">Phần 2</a></li>
+        <li><a href="#tong-ket">Tổng kết</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="container">
+      <span class="badge">FPT Polytechnic · CNTT 4.0</span>
+      <h1>Báo cáo Assignment</h1>
+      <p>Quá trình xây dựng "trợ lý học tập" bằng NotebookLM và ứng dụng "Quản lý ghi chú cá nhân" bằng Google AI Studio.</p>
+      <div class="meta">
+        <!-- Điền thông tin của bạn vào 2 dòng dưới -->
+        <span><b>Sinh viên:</b> Gia Hiền</span>
+        <span><b>Mã sinh viên:</b> (điền MSSV)</span>
+        <span><b>Lớp:</b> (điền tên lớp)</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===================== PHẦN 1 ===================== -->
+  <section id="phan1">
+    <div class="container">
+      <h2>Phần 1: Trợ lý học tập</h2>
+      <p class="sub">Công cụ: Google NotebookLM · Mục tiêu: tự xây dựng "thư viện số cá nhân" cho môn học.</p>
+
+      <div class="card">
+        <p><span class="tag">Y1</span><b>Thư viện số cho môn CNTT 4.0 (8 bài học)</b></p>
+        <p class="todo">Mô tả ngắn: bạn tạo sổ ghi chú tên gì, thêm tài liệu bằng cách nào, gặp khó khăn gì (viết bằng lời của bạn).</p>
+        <!--
+          Cách thêm ảnh thật: tải ảnh lên repository (ví dụ vào thư mục images),
+          rồi thay khung "placeholder" bên dưới bằng:
+          <img class="shot" src="images/ten-anh.png" alt="Mô tả ảnh">
+        -->
+        <div class="placeholder">Chèn ảnh chụp màn hình danh sách nguồn trong NotebookLM</div>
+      </div>
+
+      <h3>Danh sách 8 bài học đã thu thập</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Bài</th><th>Tên bài học</th><th>Tài liệu đã thêm</th><th>Trạng thái</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td><td>(điền tên bài)</td><td>(slide PDF, link...)</td><td>☐</td></tr>
+            <tr><td>2</td><td>(điền tên bài)</td><td></td><td>☐</td></tr>
+            <tr><td>3</td><td>(điền tên bài)</td><td></td><td>☐</td></tr>
+            <tr><td>4</td><td>(điền tên bài)</td><td></td><td>☐</td></tr>
+            <tr><td>5</td><td>(điền tên bài)</td><td></td><td>☐</td></tr>
+            <tr><td>6</td><td>(điền tên bài)</td><td></td><td>☐</td></tr>
+            <tr><td>7</td><td>(điền tên bài)</td><td></td><td>☐</td></tr>
+            <tr><td>8</td><td>(điền tên bài)</td><td></td><td>☐</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card" style="margin-top:18px">
+        <p><span class="tag">Y2</span><b>Nội dung của thư viện số</b></p>
+        <ul class="list">
+          <li><b>a) Tập tin:</b> <span class="todo">liệt kê các file PDF/Word đã thêm</span></li>
+          <li><b>b) Hình ảnh hoặc video:</b> <span class="todo">ví dụ link YouTube đã thêm</span></li>
+          <li><b>c) Link website tham khảo:</b> <span class="todo">liệt kê các link</span></li>
+          <li><b>d) Ghi chú của bản thân:</b> <span class="todo">tóm tắt vài ghi chú bạn đã viết</span></li>
+        </ul>
+        <div class="placeholder">Chèn ảnh chụp màn hình các loại nội dung và ghi chú</div>
+      </div>
+
+      <div class="card">
+        <p><span class="tag ext">Y3 · Mở rộng</span><b>Thư viện cho các môn học khác</b></p>
+        <p class="todo">Nếu có làm: ghi tên các môn và chụp ảnh minh họa. Nếu chưa làm, có thể xóa khối này.</p>
+      </div>
+
+      <div class="card">
+        <p><b>Khai thác "trợ lý học tập"</b></p>
+        <p class="todo">Bạn đã hỏi NotebookLM những câu gì? Đã thử công cụ nào ở cột Studio (Bản đồ tư duy, Thẻ ghi nhớ, Bài kiểm tra...)? Kết quả có chính xác không?</p>
+        <div class="placeholder">Chèn ảnh chụp màn hình phần hỏi đáp hoặc kết quả từ Studio</div>
+      </div>
+
+      <div class="links">
+        <!-- Nếu muốn chia sẻ sổ ghi chú, dán link vào href rồi bỏ dấu # -->
+        <a href="#">Xem sổ ghi chú NotebookLM</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== PHẦN 2 ===================== -->
+  <section id="phan2">
+    <div class="container">
+      <h2>Phần 2: Ứng dụng "Quản lý ghi chú cá nhân"</h2>
+      <p class="sub">Công cụ: Google AI Studio + công cụ vẽ phác thảo (draw.io / Figma / Canva / PowerPoint).</p>
+
+      <div class="card">
+        <p><span class="tag">Y4</span><b>Bản vẽ phác thảo ứng dụng</b></p>
+        <ul class="list">
+          <li><b>a) Giao diện chính:</b> <span class="todo">mô tả ngắn</span></li>
+          <li><b>b) Giao diện các chức năng chính:</b> <span class="todo">thêm, sửa, xóa, tìm kiếm...</span></li>
+          <li><b>c) Cách vận hành:</b> <span class="todo">bấm nút nào thì chuyện gì xảy ra</span></li>
+        </ul>
+        <div class="placeholder">Chèn ảnh bản vẽ phác thảo giao diện chính</div>
+        <div class="placeholder">Chèn ảnh bản vẽ các chức năng và sơ đồ vận hành</div>
+      </div>
+
+      <div class="card">
+        <p><b>Quá trình tạo ứng dụng bằng AI Studio</b></p>
+        <p class="todo">Bạn đã mô tả (prompt) cho AI những gì? Đã chỉnh sửa những gì sau lần chạy đầu tiên?</p>
+        <div class="placeholder">Chèn ảnh chụp màn hình ứng dụng sau khi hoàn thành</div>
+      </div>
+
+      <div class="card">
+        <p><span class="tag">Y5</span><b>Sử dụng thực tế ít nhất 5 ngày, tối thiểu 10 ghi chú</b></p>
+        <p class="todo">Điền nhật ký sử dụng thật của bạn vào bảng dưới (thay các dòng mẫu).</p>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Ngày</th><th>Số ghi chú</th><th>Nội dung chính</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Ngày 1 (../..)</td><td></td><td class="todo">(điền)</td></tr>
+            <tr><td>Ngày 2 (../..)</td><td></td><td></td></tr>
+            <tr><td>Ngày 3 (../..)</td><td></td><td></td></tr>
+            <tr><td>Ngày 4 (../..)</td><td></td><td></td></tr>
+            <tr><td>Ngày 5 (../..)</td><td></td><td></td></tr>
+            <tr><td><b>Tổng</b></td><td><b>≥ 10</b></td><td></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="placeholder">Chèn ảnh chụp màn hình danh sách ghi chú trong ứng dụng</div>
+
+      <div class="card">
+        <p><span class="tag ext">Y6 · Mở rộng</span><b>Ứng dụng AI trong quản lý ghi chú</b></p>
+        <p class="todo">Nếu có làm: bạn thêm tính năng AI nào (tóm tắt, gợi ý thẻ, tìm kiếm thông minh...)? Hoạt động ra sao?</p>
+        <div class="placeholder">Chèn ảnh chụp màn hình tính năng AI</div>
+      </div>
+
+      <div class="links">
+        <!-- Dán link ứng dụng đã chia sẻ từ AI Studio vào href rồi bỏ dấu # -->
+        <a href="#">Mở ứng dụng Quản lý ghi chú</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== TỔNG KẾT ===================== -->
+  <section id="tong-ket">
+    <div class="container">
+      <h2>Tổng kết</h2>
+      <p class="sub">Những điều rút ra sau khi làm bài.</p>
+      <div class="card">
+        <p><b>Khó khăn đã gặp và cách giải quyết</b></p>
+        <p class="todo">Viết bằng trải nghiệm thật của bạn.</p>
+      </div>
+      <div class="card">
+        <p><b>Bài học và dự định tiếp theo</b></p>
+        <p class="todo">Bạn học được gì về công cụ AI và cách quản lý việc học? Sẽ dùng tiếp như thế nào?</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      © 2026 Gia Hiền · Assignment CNTT 4.0 · FPT Polytechnic
+    </div>
+  </footer>
+
+</body>
+</html>
